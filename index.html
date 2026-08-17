@@ -8,16 +8,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MacroTrack">
 <meta name="theme-color" content="#F2F0E8">
-<meta name="description" content="MacroTrack — a beautiful daily macro & calorie tracker with AI food scanning, entirely on your device.">
+<meta name="description" content="MacroTrack — a precise daily macro & calorie tracker with AI food scanning, entirely on your device.">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="%23A9E24C"/><circle cx="32" cy="32" r="15" fill="none" stroke="%23122019" stroke-width="7" stroke-dasharray="70 25" stroke-linecap="round" transform="rotate(-90 32 32)"/></svg>'>
-<link rel="apple-touch-icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="%23A9E24C"/><circle cx="32" cy="32" r="15" fill="none" stroke="%23122019" stroke-width="7" stroke-dasharray="70 25" stroke-linecap="round" transform="rotate(-90 32 32)"/></svg>'>
+<link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22MacroTrack%22%2C%22short_name%22%3A%22MacroTrack%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%230A110C%22%2C%22theme_color%22%3A%22%230A110C%22%7D'>
 <title>MacroTrack — macros, food scans & trends</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ============ tokens ============ */
 :root{
   --bg:#F2F0E8; --surface:#FFFFFF; --surface2:#F6F5ED; --ink:#122019; --muted:#67756B;
   --line:rgba(18,32,25,.10); --line2:rgba(18,32,25,.16);
@@ -87,7 +86,6 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opa
 html[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.04}
 @media (min-width:480px){ #app{border-left:1px solid var(--line);border-right:1px solid var(--line);box-shadow:0 0 120px rgba(0,0,0,.18)} }
 
-/* ============ top bar ============ */
 #topbar{
   position:sticky; top:0; z-index:40; display:flex; align-items:center; justify-content:space-between;
   padding:calc(env(safe-area-inset-top) + 10px) 20px 10px;
@@ -105,7 +103,6 @@ html[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.04}
   background:#FFF3D6;border:1px solid #E8CF9A}
 html[data-theme="dark"] #storageWarn{color:#FFDF9E;background:#3A2E12;border-color:#5C4A1E}
 
-/* ============ layout ============ */
 main{position:relative;z-index:1;padding:6px 20px 0}
 .tab{display:none}
 .tab.active{display:block;animation:tabIn .4s var(--ease) both}
@@ -118,7 +115,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .hint{font-size:12px;color:var(--muted)}
 
-/* ============ TODAY hero ============ */
 #hero .date-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
 #hero .date{font-size:12.5px;font-weight:700;color:var(--muted)}
 .ring-wrap{position:relative;width:236px;margin:6px auto 2px}
@@ -168,7 +164,6 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .step button:active{transform:scale(.86)}
 .step button.plus{background:linear-gradient(140deg,var(--limeA),var(--limeB));color:var(--limeInk);border:0}
 
-/* meal groups + log */
 .log-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 #logTotal{font-family:"Sora";font-weight:800;font-size:16px}
 .mgroup+.mgroup{margin-top:4px}
@@ -194,7 +189,6 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .empty b{color:var(--ink);font-family:"Sora";font-size:14px;display:block;margin-bottom:3px}
 .empty small{font-size:12px}
 
-/* quick add */
 #quickRow{display:flex;gap:8px;overflow-x:auto;padding:2px 4px 8px;margin:0 -2px;scrollbar-width:none}
 #quickRow::-webkit-scrollbar{display:none}
 .qchip{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:9px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .25s var(--spring);position:relative}
@@ -208,13 +202,11 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .qsec{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 8px}
 #qManage{font-size:11.5px;font-weight:800;color:var(--limeB)}
 
-/* ============ segmented ============ */
 .seg{position:relative;display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:3px}
 .seg .thumb{position:absolute;top:3px;bottom:3px;left:3px;background:var(--surface);border-radius:99px;box-shadow:var(--shadow);transition:transform .4s var(--spring),width .3s var(--spring)}
 .seg button{position:relative;z-index:1;flex:1;padding:7px 14px;font-weight:800;font-size:12.5px;color:var(--muted);border-radius:99px;transition:color .25s;white-space:nowrap}
 .seg button.on{color:var(--ink)}
 
-/* ============ analytics ============ */
 #trendChart svg{display:block;width:100%}
 .axis-t{font:600 9.5px "Manrope";fill:var(--muted)}
 .goal-lbl{font:800 9.5px "Manrope";fill:var(--muted)}
@@ -245,7 +237,6 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 #weightNow{font-family:"Sora";font-weight:800;font-size:34px;line-height:1}
 #weightDelta{font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:99px;background:var(--surface2);border:1px solid var(--line)}
 
-/* ============ coach ============ */
 #coachChat{display:flex;flex-direction:column;height:calc(100dvh - var(--topH) - var(--tabH) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 150px);min-height:340px}
 #chatScroll{flex:1;overflow-y:auto;padding:4px 2px 10px;display:flex;flex-direction:column;gap:10px;scrollbar-width:none}
 #chatScroll::-webkit-scrollbar{display:none}
@@ -253,6 +244,7 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 @keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
 .msg.user{align-self:flex-end;background:var(--ink);color:var(--bg);border-bottom-right-radius:6px;font-weight:600}
 .msg.coach{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:6px;box-shadow:var(--shadow)}
+.msg .facts{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--limeB);background:color-mix(in srgb,var(--lime) 14%,transparent);padding:4px 10px;border-radius:99px;margin-bottom:9px}
 .msg .est-add{margin-top:10px;display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:99px;background:linear-gradient(140deg,var(--limeA),var(--limeB));color:var(--limeInk);font-weight:800;font-size:13px;box-shadow:0 6px 14px -6px color-mix(in srgb,var(--limeB) 60%,transparent)}
 .typing{display:inline-flex;gap:4px;padding:14px 16px}
 .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.1s infinite}
@@ -271,7 +263,6 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .key-card .key-note{font-size:12px;color:var(--muted);margin:8px 0 12px}
 .key-card a{color:var(--limeB);font-weight:800;text-decoration:none}
 
-/* ============ settings ============ */
 .field{margin-bottom:11px}
 .field label{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .iwrap{position:relative}
@@ -299,7 +290,6 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .swatch.on{outline:2.5px solid var(--ink);outline-offset:3px}
 .about{text-align:center;font-size:11.5px;color:var(--muted);padding:10px 0 4px;font-weight:600}
 
-/* ============ FABs & tab bar ============ */
 #fab{position:fixed;z-index:45;right:max(20px,calc(50% - 215px + 20px));bottom:calc(var(--tabH) + env(safe-area-inset-bottom) + 22px);
   width:58px;height:58px;border-radius:50%;background:linear-gradient(140deg,var(--limeA),var(--limeB));color:var(--limeInk);
   display:grid;place-items:center;box-shadow:0 14px 30px -8px color-mix(in srgb,var(--limeB) 65%,transparent);transition:transform .3s var(--spring),opacity .3s;animation:fabIn .6s .3s var(--spring) both}
@@ -324,7 +314,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
 .tb-item.on svg{transform:translateY(-1px) scale(1.08)}
 .tb-item:active svg{transform:scale(.82)}
 
-/* ============ sheets ============ */
 #backdrop{position:fixed;inset:0;z-index:80;background:rgba(10,16,10,.4);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .35s}
 #backdrop.show{opacity:1;pointer-events:auto}
 .sheet{position:fixed;z-index:90;left:50%;bottom:0;transform:translate(-50%,105%);width:min(430px,100%);max-height:90dvh;overflow-y:auto;
@@ -356,22 +345,23 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
 .search-wrap input{width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:12px 16px 12px 40px;font-size:14.5px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s}
 .search-wrap input:focus{border-color:var(--lime);box-shadow:0 0 0 3px color-mix(in srgb,var(--lime) 22%,transparent)}
 
-/* FoodScan */
 .scan-preview{position:relative;border-radius:20px;overflow:hidden;margin-bottom:14px;background:var(--surface2)}
 .scan-preview img{width:100%;display:block;max-height:290px;object-fit:cover}
 .scanline{display:none;position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,var(--limeA),transparent);box-shadow:0 0 20px 5px color-mix(in srgb,var(--limeA) 55%,transparent);animation:scanmove 1.7s ease-in-out infinite}
 .scan-preview.busy .scanline{display:block}
 @keyframes scanmove{0%{top:0}50%{top:calc(100% - 3px)}100%{top:0}}
+.scan-src{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--lime) 13%,transparent);font-size:12px;font-weight:700;margin-bottom:12px}
+.scan-src b{font-weight:800}
 .conf{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:99px;letter-spacing:.06em;text-transform:uppercase;background:var(--surface2);color:var(--muted)}
 .conf.high{background:color-mix(in srgb,var(--lime) 20%,transparent);color:var(--limeB)}
 .conf.medium{background:color-mix(in srgb,var(--carbs) 18%,transparent);color:var(--carbs)}
 .conf.low{background:var(--surface2);color:var(--muted)}
-#sNotes{font-size:12.5px;color:var(--muted);font-weight:600;margin:-4px 0 14px}
+#sNotes{font-size:12.5px;color:var(--muted);font-weight:600;margin:-4px 0 4px}
+.src-note{font-size:11px;color:var(--muted);font-weight:700;margin:0 0 14px}
 .pop{animation:pop .5s var(--spring) both}
 @keyframes pop{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:none}}
-.linkish{font-size:12.5px;font-weight:800;color:var(--limeB);display:block;margin:0 auto 12px;text-align:center}
+.linkish{font-size:12.5px;font-weight:800;color:var(--limeB);display:block;margin:12px auto 0;text-align:center}
 
-/* ============ toasts ============ */
 #toasts{position:fixed;z-index:120;left:50%;transform:translateX(-50%);bottom:calc(var(--tabH) + env(safe-area-inset-bottom) + 26px);display:flex;flex-direction:column;gap:8px;align-items:center;width:min(390px,calc(100% - 40px));pointer-events:none}
 .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:99px;font-size:13px;font-weight:700;box-shadow:var(--shadow-lg);animation:toastIn .45s var(--spring) both;pointer-events:auto;max-width:100%}
 .toast button{color:var(--limeA);font-weight:800;font-size:13px}
@@ -402,7 +392,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
   <div id="storageWarn" hidden>Preview mode — this browser context can’t persist storage, so entries reset on reload. Download this file to use MacroTrack for real.</div>
 
   <main>
-    <!-- ================= TODAY ================= -->
     <section id="tab-today" class="tab active">
       <div id="macroNotice">⚠️ Some entries have unknown macros — totals may be undercounted.</div>
 
@@ -459,7 +448,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
       </div>
     </section>
 
-    <!-- ================= ANALYTICS ================= -->
     <section id="tab-analytics" class="tab">
       <div class="card in">
         <div class="row" style="margin-bottom:14px">
@@ -518,11 +506,10 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
       </div>
     </section>
 
-    <!-- ================= COACH ================= -->
     <section id="tab-coach" class="tab">
       <div class="card key-card in" id="coachSetup">
         <div class="row"><h3>Coach</h3><span class="kicker">powered by Groq</span></div>
-        <p class="key-note">Grounded in today’s numbers — ask it to estimate a food or check your progress. One free Groq key powers <b>both Coach and FoodScan</b>, stored only in this browser and sent only to Groq. Get a key at <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a>.</p>
+        <p class="key-note">Grounded in today’s numbers — and for branded foods, grounded in <b>live label data from Open Food Facts</b>. One free Groq key powers both Coach and FoodScan, stored only in this browser. Get a key at <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a>.</p>
         <div class="field"><div class="iwrap"><input type="password" id="setupKey" placeholder="gsk_…" autocomplete="off"><span class="unit">key</span></div></div>
         <button class="btn primary" id="btnSetupSave">Save key &amp; connect</button>
       </div>
@@ -539,17 +526,16 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
         <div class="chips" id="coachChips">
           <button class="chip">How am I doing today?</button>
           <button class="chip">Estimate 2 eggs + toast</button>
+          <button class="chip">Macros in a Quest protein bar?</button>
           <button class="chip">What should I eat for dinner?</button>
-          <button class="chip">Am I on track for protein?</button>
         </div>
         <div class="chat-input">
-          <input type="text" id="chatInput" placeholder="Ask Coach…" autocomplete="off">
+          <input type="text" id="chatInput" placeholder="Ask Coach… (name exact products for label data)" autocomplete="off">
           <button class="send" id="btnSend" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
         </div>
       </div>
     </section>
 
-    <!-- ================= SETTINGS ================= -->
     <section id="tab-settings" class="tab">
       <div class="card in">
         <div class="row" style="margin-bottom:12px"><h3>Daily goals</h3><span class="kicker">targets</span></div>
@@ -599,7 +585,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
 
       <div class="card">
         <div class="row" style="margin-bottom:4px"><h3>AI · Coach &amp; FoodScan</h3><span class="kicker">Groq</span></div>
-        <p class="hint" style="margin:6px 0 12px">One free key powers everything — chat and photo scanning. Stored in this browser, sent only to Groq.</p>
+        <p class="hint" style="margin:6px 0 12px">One free key powers everything, in Precise mode (deterministic answers). Stored in this browser, sent only to Groq.</p>
         <div class="field"><label>API key</label><div class="iwrap"><input type="password" id="aiKey" placeholder="gsk_…" autocomplete="off"><span class="unit">key</span></div></div>
         <div class="field"><label>Coach model</label><div class="iwrap"><select id="aiModel"><option value="">— save a key to load models —</option></select></div></div>
         <div class="field"><label>FoodScan model</label><div class="iwrap"><select id="aiScanModel"></select></div></div>
@@ -608,7 +594,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
 
       <div class="card">
         <div class="row" style="margin-bottom:6px"><h3>Food search &amp; scan</h3></div>
-        <p class="hint" style="margin:0">Text search uses <b>Open Food Facts</b> — free, no key, great for packaged foods. The 📷 camera button runs <b>FoodScan</b>: your photo is shrunk on-device, then a Groq vision model estimates the macros. Estimates are guesses — always double-check.</p>
+        <p class="hint" style="margin:0">Text search and the accuracy layer run on <b>Open Food Facts</b> — free, no key. When Coach or FoodScan recognizes a branded product, real label macros are fetched and used instead of AI guesses (you’ll see a 📦 badge). Estimates for homemade food are still best-guesses — always double-check.</p>
       </div>
 
       <div class="card">
@@ -624,7 +610,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
         <input type="file" id="importFile" accept="application/json,.json" hidden>
       </div>
 
-      <p class="about">MacroTrack 2.1 — new: FoodScan 📷, weight trend ⚖️, meal sections, accents · your data never leaves this device 🌱</p>
+      <p class="about">MacroTrack 2.2 — new: Precise AI · label-grounded estimates · FoodScan cross-check · your data never leaves this device 🌱</p>
     </section>
   </main>
 
@@ -640,7 +626,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
   </nav>
 </div>
 
-<!-- ============ ADD ENTRY SHEET ============ -->
 <div id="backdrop"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Add entry">
   <div class="grab" id="sheetGrab"></div>
@@ -668,11 +653,10 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
   <button class="btn primary" id="btnAddEntry">Add entry</button>
 </div>
 
-<!-- ============ FOODSCAN SHEET ============ -->
 <div class="sheet" id="sheetScan" role="dialog" aria-modal="true" aria-label="FoodScan">
   <div class="grab" id="scanGrab"></div>
   <div class="sheet-head">
-    <div><h2>FoodScan</h2><span class="hint">photo → macros · powered by Groq vision</span></div>
+    <div><h2>FoodScan</h2><span class="hint">photo → macros · Groq vision + label cross-check</span></div>
     <button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
 
@@ -695,9 +679,11 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
   </div>
 
   <div id="scanResult" hidden>
+    <div class="scan-src" id="scanSrc" hidden></div>
     <div class="row" style="margin-bottom:10px"><span class="kicker">Detected</span><span id="sConf" class="conf">estimate</span></div>
     <div class="field"><label>Food</label><div class="iwrap"><input type="text" id="sName"></div></div>
     <p id="sNotes"></p>
+    <div class="src-note" id="sAiGuess" hidden></div>
     <div class="grid2">
       <div class="field"><label>Portion</label><div class="iwrap"><input type="number" id="sGrams" inputmode="decimal" class="has-unit"><span class="unit">g</span></div></div>
       <div class="field"><label>Calories</label><div class="iwrap"><input type="number" id="sKcal" inputmode="decimal" class="has-unit"><span class="unit">kcal</span></div></div>
@@ -764,9 +750,6 @@ const entriesOn = d => state.entries.filter(e=>e.date===d);
 function dayTotals(d){
   let kcal=0,p=0,c=0,f=0,unknown=false;
   for(const e of entriesOn(d)){
-    for(const [k,sum] of [["kcal","kcal"],["p","p"],["c","c"],["f","f"]]){
-      if(e[k]==null||isNaN(e[k])) unknown=true; else ({kcal,p,c,f})[sum]+=0; // noop guard
-    }
     if(e.kcal!=null&&!isNaN(e.kcal)) kcal+=+e.kcal; else unknown=true;
     if(e.p!=null&&!isNaN(e.p)) p+=+e.p; else unknown=true;
     if(e.c!=null&&!isNaN(e.c)) c+=+e.c; else unknown=true;
@@ -804,7 +787,6 @@ function toast(msg, action){
   setTimeout(kill, action?5200:3200);
 }
 
-/* ============ theme & accent ============ */
 function applyTheme(){
   const m = state.settings.theme;
   if(m==="system") document.documentElement.removeAttribute("data-theme");
@@ -829,7 +811,6 @@ function initSeg(el, cb){
   return el;
 }
 
-/* ============ tabs ============ */
 function switchTab(name){
   haptic(6);
   document.body.dataset.tab = name;
@@ -840,7 +821,6 @@ function switchTab(name){
 }
 $$(".tb-item").forEach(b=> b.onclick = ()=> switchTab(b.dataset.tab));
 
-/* ============ TODAY ============ */
 const RING_C = 2*Math.PI*92;
 $("#ringFg").style.strokeDasharray = RING_C;
 $("#ringFg").style.strokeDashoffset = RING_C;
@@ -968,7 +948,6 @@ function renderToday(){
   $("#hdrStreak").lastChild.textContent = s===1 ? " day" : " days";
 }
 
-/* ============ celebrations ============ */
 function celebrate(before, after){
   const g=state.goals, msgs=[];
   if(before.p<g.p && after.p>=g.p) msgs.push("Protein goal smashed 💪");
@@ -978,7 +957,6 @@ function celebrate(before, after){
   msgs.forEach((m,i)=> setTimeout(()=>toast(m), 400 + i*700));
 }
 
-/* ============ ANALYTICS ============ */
 let anRange = 7, firstAnalytics = true;
 function smooth(pts){
   if(pts.length<2) return pts.length ? `M${pts[0].x},${pts[0].y}` : "";
@@ -1100,9 +1078,9 @@ function renderWeight(){
     <circle cx="${X(pts.length-1)}" cy="${Y(vals[vals.length-1])}" r="4" fill="var(--surface)" stroke="#2FC178" stroke-width="2.5"/>
   </svg>`;
   const d = vals[vals.length-1]-vals[0];
+  const amt = state.settings.units==="lb" ? (Math.abs(d)*2.20462).toFixed(1)+" lb" : Math.abs(d).toFixed(1)+" kg";
   delta.hidden=false;
-  delta.textContent = (d>0.05?"▲ ":d<-0.05?"▼ ":"→ ") + fmtW(Math.abs(d)).replace(/^[0-9. ]+/,"") === "" ? "" :
-    (d>0.05?"▲ +":d<-0.05?"▼ −":"→ ") + (state.settings.units==="lb"?(Math.abs(d)*2.20462).toFixed(1)+" lb":Math.abs(d).toFixed(1)+" kg") + " overall";
+  delta.textContent = (d>0.05?"▲ +":d<-0.05?"▼ −":"→ ") + amt + " overall";
 }
 $("#btnLogWeight").onclick = ()=>{
   let v = parseFloat($("#weightInput").value);
@@ -1117,9 +1095,8 @@ function renderAnalytics(animate=false){
   firstAnalytics = false;
 }
 let rsz; addEventListener("resize", ()=>{ clearTimeout(rsz);
-  rsz=setTimeout(()=>{ if(document.body.dataset.tab==="analytics") renderTrend(false); renderWeight(); },180); });
+  rsz=setTimeout(()=>{ if(document.body.dataset.tab==="analytics"){ renderTrend(false); renderWeight(); } },180); });
 
-/* ============ sheets ============ */
 const backdrop = $("#backdrop");
 let activeSheet = null;
 function openSheetEl(el){ activeSheet=el; el.classList.add("open"); backdrop.classList.add("show"); document.documentElement.classList.add("lock"); }
@@ -1140,7 +1117,6 @@ attachDrag($("#sheetScan"), $("#scanGrab"));
 
 $("#fab").onclick = ()=> openSheetEl($("#sheet"));
 
-/* ============ add entry ============ */
 const num = id => { const v=$("#"+id).value.trim(); return v===""?null:+v; };
 function addEntry(data){
   const before = dayTotals(todayStr());
@@ -1162,23 +1138,63 @@ $("#btnAddEntry").onclick = ()=>{
   closeSheetEl();
 };
 
-/* Open Food Facts */
+/* ============ Open Food Facts: search + accuracy layer ============ */
+const normWords = s => String(s).toLowerCase().replace(/[^a-z0-9\s]/g," ").split(/\s+/).filter(w=>w.length>2);
+async function offSearch(query){
+  const r = await fetch("https://world.openfoodfacts.org/cgi/search.pl?search_terms="+encodeURIComponent(query)+
+    "&search_simple=1&action=process&json=1&page_size=6&fields=product_name,brands,nutriments,serving_quantity,image_front_small_url");
+  return (await r.json()).products || [];
+}
+async function lookupOFF(query){
+  if(!query || query.length<3) return null;
+  try{
+    const cands = (await offSearch(query)).filter(p=>p.product_name && p.nutriments &&
+      (p.nutriments["energy-kcal_100g"]!=null || p.nutriments["energy_100g"]!=null));
+    if(!cands.length) return null;
+    const qw = normWords(query);
+    let best=null, bestScore=0;
+    for(const p of cands){
+      const pw = normWords(p.product_name+" "+(p.brands||""));
+      let hits=0;
+      qw.forEach(w=>{ if(pw.some(x=>x.includes(w)||w.includes(x))) hits++; });
+      const score = qw.length ? hits/qw.length : 0;
+      if(score>bestScore){ bestScore=score; best=p; }
+    }
+    if(!best || bestScore<0.5) return null;
+    const n = best.nutriments;
+    let kcal = n["energy-kcal_100g"]; if(kcal==null && n["energy_100g"]!=null) kcal = n["energy_100g"]/4.184;
+    return { name:best.product_name, brand:best.brands||"",
+      per100:{ kcal:+kcal||0, p:+n.proteins_100g||0, c:+n.carbohydrates_100g||0, f:+n.fat_100g||0 },
+      serving: best.serving_quantity?Math.round(+best.serving_quantity):null, score:bestScore };
+  }catch(e){ return null; }
+}
+const FOODISH = /\b(estimat|macro|calor|kcal|protein|carbs?|fats?|serving|portion|label|barcode|nutrition|how many|how much)\b/i;
+function foodQueryFrom(text){
+  const q = text.replace(/https?:\/\/\S+/g,"")
+    .replace(/\b(estimate|the|macros?|calories|calorie|kcal|cals|how|many|much|in|of|a|an|please|what|are|is|for|me|just|about|approximately)\b/gi," ")
+    .replace(/[?!.]/g," ").replace(/\s+/g," ").trim();
+  return q.length>=3 ? q : text.trim();
+}
+function factsBlock(f){
+  return `\n\nNUTRITION FACTS RETRIEVED LIVE FROM OPEN FOOD FACTS (trust these over your memory):
+Product: ${f.name}${f.brand?" ("+f.brand+")":""}
+Per 100 g: ${Math.round(f.per100.kcal)} kcal · protein ${r1(f.per100.p)} g · carbs ${r1(f.per100.c)} g · fat ${r1(f.per100.f)} g${f.serving?"\nTypical serving: "+f.serving+" g":""}
+If the user is asking about this product, compute with these exact numbers scaled to their portion. If they are asking about something else, ignore this block.`;
+}
 let offT;
 $("#offSearch").addEventListener("input", e=>{
   clearTimeout(offT); const q=e.target.value.trim();
   if(q.length<3){ $("#offResults").innerHTML=""; return; }
-  offT=setTimeout(()=>searchOFF(q), 420);
+  offT=setTimeout(()=>searchOFFUI(q), 420);
 });
-async function searchOFF(q){
+async function searchOFFUI(q){
   const box = $("#offResults");
   box.innerHTML = '<div class="spinner"></div>';
   try{
-    const r = await fetch("https://world.openfoodfacts.org/cgi/search.pl?search_terms="+encodeURIComponent(q)+
-      "&search_simple=1&action=process&json=1&page_size=6&fields=product_name,brands,nutriments,serving_quantity,image_front_small_url");
-    const j = await r.json();
-    if(!j.products || !j.products.length){ box.innerHTML='<div class="off-status">No matches — try entering it manually below 👇</div>'; return; }
+    const products = await offSearch(q);
+    if(!products.length){ box.innerHTML='<div class="off-status">No matches — try entering it manually below 👇</div>'; return; }
     box.innerHTML="";
-    j.products.forEach(p=>{
+    products.forEach(p=>{
       const n=p.nutriments||{};
       let kcal=n["energy-kcal_100g"]; if(kcal==null && n["energy_100g"]!=null) kcal=n["energy_100g"]/4.184;
       const b=document.createElement("button"); b.className="off-item";
@@ -1200,7 +1216,7 @@ async function searchOFF(q){
   }catch(err){ box.innerHTML='<div class="off-status">Search unavailable — enter manually below.</div>'; }
 }
 
-/* ============ FOODSCAN ============ */
+/* ============ FOODSCAN (vision + label cross-check) ============ */
 const VISION_MODELS = ["meta-llama/llama-4-scout-17b-16e-instruct","meta-llama/llama-4-maverick-17b-128e-instruct","llama-3.2-90b-vision-prebuilt"];
 const SCAN_PROMPT = `You are FoodScan, a precise food-recognition engine inside a macro-tracking app.
 Look at the photo. Identify the food or meal, estimate the cooked portion weight in grams, and estimate nutrition for what is visible.
@@ -1245,7 +1261,7 @@ $("#scanFile").onchange = e=>{ const f=e.target.files[0]; e.target.value=""; if(
 async function startScan(file){
   if(!file.type.startsWith("image/")){ toast("That doesn't look like an image"); return; }
   openSheetEl($("#sheetScan"));
-  ["#scanBusy","#scanKeyBox","#scanError","#scanResult"].forEach(s=>$(s).hidden=true);
+  ["#scanBusy","#scanKeyBox","#scanError","#scanResult","#scanSrc","#sAiGuess"].forEach(s=>$(s).hidden=true);
   $("#scanPrev").hidden=true; $("#scanPrev").classList.remove("busy");
   $("#btnScanChange").hidden=true;
   try{
@@ -1264,25 +1280,47 @@ async function runScan(){
   try{
     const r = await fetch("https://api.groq.com/openai/v1/chat/completions",{
       method:"POST", headers:{ "Content-Type":"application/json", Authorization:"Bearer "+state.settings.key },
-      body: JSON.stringify({ model: pickScanModel(), temperature:.2, max_tokens:400,
+      body: JSON.stringify({ model: pickScanModel(), temperature:0, top_p:1, seed:42, max_tokens:400,
         messages:[{role:"user",content:[{type:"text",text:SCAN_PROMPT},{type:"image_url",image_url:{url:scanData}}]}] })
     });
     const j = await r.json();
-    $("#scanPrev").classList.remove("busy");
     if(!r.ok) throw new Error(j.error?.message || ("HTTP "+r.status));
     const o = parseJSONBlock(j.choices?.[0]?.message?.content || "");
     if(!o) throw new Error("Couldn't parse the model's answer — rescan.");
-    if(o.error){ scanFail("That doesn't look like food 🤔 " + (o.notes||"Try a clearer photo of your meal.")); return; }
-    fillScanResult(o);
+    if(o.error){ $("#scanPrev").classList.remove("busy"); scanFail("That doesn't look like food 🤔 " + (o.notes||"Try a clearer photo of your meal.")); return; }
+    // accuracy layer: cross-check the detected food against real label data
+    $("#scanStatus").textContent="Cross-checking with product labels…";
+    let refined=null;
+    if(o.name){
+      const hit = await lookupOFF(o.name);
+      if(hit && hit.per100.kcal>0 && o.grams){
+        const k=(+o.grams)/100;
+        refined={ kcal:Math.round(hit.per100.kcal*k), p:r1(hit.per100.p*k), c:r1(hit.per100.c*k), f:r1(hit.per100.f*k), src:hit };
+      }
+    }
+    $("#scanPrev").classList.remove("busy");
+    fillScanResult(o, refined);
   }catch(err){ $("#scanPrev").classList.remove("busy"); scanFail(err.message); }
 }
-function fillScanResult(o){
+function fillScanResult(o, refined){
   $("#scanBusy").hidden=true;
   const res=$("#scanResult"); res.hidden=false;
-  $("#sName").value=o.name||""; $("#sGrams").value=o.grams??""; $("#sKcal").value=Math.round(o.kcal??0);
-  $("#sP").value=r1(o.protein??0); $("#sC").value=r1(o.carbs??0); $("#sF").value=r1(o.fat??0);
+  $("#sName").value=o.name||"";
+  $("#sGrams").value=o.grams??"";
   $("#sNotes").textContent=o.notes||"";
-  const conf=$("#sConf"); conf.textContent=o.confidence||"estimate"; conf.className="conf "+(o.confidence||"");
+  const src=$("#scanSrc"), note=$("#sAiGuess"), conf=$("#sConf");
+  if(refined){
+    $("#sKcal").value=refined.kcal; $("#sP").value=refined.p; $("#sC").value=refined.c; $("#sF").value=refined.f;
+    src.hidden=false;
+    src.innerHTML=`✓ Cross-checked with label data — <b>${esc(refined.src.name)}</b>${refined.src.brand?" · "+esc(refined.src.brand):""}`;
+    note.hidden=false;
+    note.textContent=`Vision estimate: ${fmt(o.kcal??0)} kcal · P ${r1(o.protein??0)} · C ${r1(o.carbs??0)} · F ${r1(o.fat??0)} — label data used above.`;
+    conf.textContent="label match"; conf.className="conf high";
+  } else {
+    $("#sKcal").value=Math.round(o.kcal??0); $("#sP").value=r1(o.protein??0); $("#sC").value=r1(o.carbs??0); $("#sF").value=r1(o.fat??0);
+    src.hidden=true; note.hidden=true;
+    conf.textContent=o.confidence||"estimate"; conf.className="conf "+(o.confidence||"");
+  }
   res.classList.remove("pop"); void res.offsetWidth; res.classList.add("pop");
   haptic(14);
 }
@@ -1304,7 +1342,7 @@ $("#btnScanAdd").onclick = ()=>{
   haptic(12); closeSheetEl();
 };
 
-/* ============ COACH ============ */
+/* ============ COACH (Precise mode + label grounding) ============ */
 const FALLBACK_MODELS = ["llama-3.3-70b-versatile","llama-3.1-8b-instant","meta-llama/llama-4-scout-17b-16e-instruct","openai/gpt-oss-120b"];
 const coachReady = ()=> !!state.settings.key;
 function renderCoachState(){
@@ -1313,7 +1351,7 @@ function renderCoachState(){
   if(coachReady()){
     $("#setupKey").value = state.settings.key;
     $("#coachModelChip").textContent = (state.settings.model||"").split("/").pop() || "—";
-    if(!state.chat.length) coachMsg("coach", "Hey! I’m Coach — grounded in today’s numbers. Ask me to estimate a food, check progress, or plan what to eat next. 🥗");
+    if(!state.chat.length) coachMsg("coach", "Hey! I’m Coach — grounded in today’s numbers, and for branded foods I pull real label data from Open Food Facts (you’ll see a 📦 badge). What are we eating? 🥗");
   }
 }
 $("#btnSetupSave").onclick = async ()=>{
@@ -1357,9 +1395,14 @@ $("#btnSaveAI").onclick = async ()=>{
 };
 $("#btnCoachKey").onclick = ()=>{ $("#coachSetup").style.display = ""; $("#setupKey").focus(); };
 $("#btnCoachClear").onclick = ()=>{ state.chat=[]; save(); $("#chatScroll").innerHTML=""; renderCoachState(); };
-function coachMsg(role, text, est){
+function coachMsg(role, text, est, facts){
   const div=document.createElement("div"); div.className="msg "+role;
-  div.textContent = text;
+  if(facts){
+    const f=document.createElement("div"); f.className="facts";
+    f.textContent="📦 Label data: "+facts.name+(facts.brand?" · "+facts.brand:"");
+    div.appendChild(f);
+  }
+  div.appendChild(document.createTextNode(text));
   if(est){
     const b=document.createElement("button"); b.className="est-add";
     b.innerHTML = `＋ Log “${esc(est.name)}” · ${fmt(est.kcal)} kcal`;
@@ -1384,6 +1427,12 @@ function grounding(){
   return `You are Coach inside MacroTrack, a macro-tracking app. Today is ${new Date().toDateString()}.
 Current numbers: eaten ${Math.round(t.kcal)} of ${g.kcal} kcal goal (${Math.max(0,Math.round(g.kcal-t.kcal))} left), protein ${Math.round(t.p)}/${g.p} g, carbs ${Math.round(t.c)}/${g.c} g, fat ${Math.round(t.f)}/${g.f} g, water ${waterToday()}/${g.water} glasses. Logged today: ${recent}.
 Be concise, warm, specific, under 120 words unless asked for a plan.
+Rules for food estimates:
+- Give ONE single best estimate — never ranges, never multiple options unless asked.
+- For multi-item meals, break down item by item, then give the total.
+- Always state the portion size you assumed.
+- Round kcal to the nearest 5, grams to the nearest 1 (or 0.5 under 10 g).
+- If NUTRITION FACTS retrieved from Open Food Facts are provided, use those numbers EXACTLY for that product — never your memory.
 If the user asks you to estimate macros for a food or meal, give a brief estimate, then append EXACTLY one fenced json block:
 \`\`\`json
 {"name":"...","grams":123,"kcal":123,"protein":12,"carbs":12,"fat":12}
@@ -1396,18 +1445,24 @@ async function coachSend(text){
   state.chat.push({role:"user", content:text});
   const typing=document.createElement("div"); typing.className="msg coach typing"; typing.innerHTML="<i></i><i></i><i></i>";
   $("#chatScroll").appendChild(typing); $("#chatScroll").scrollTop=1e6;
+  let facts=null;
   try{
+    // accuracy layer: fetch real label data before asking the model
+    if(FOODISH.test(text) || text.split(/\s+/).length<=8){
+      facts = await lookupOFF(foodQueryFrom(text));
+    }
     const r = await fetch("https://api.groq.com/openai/v1/chat/completions",{
       method:"POST", headers:{ "Content-Type":"application/json", Authorization:"Bearer "+state.settings.key },
-      body: JSON.stringify({ model: state.settings.model || FALLBACK_MODELS[0], temperature:.5, max_tokens:700,
-        messages:[{role:"system",content:grounding()}, ...state.chat.slice(-12)] })
+      body: JSON.stringify({ model: state.settings.model || FALLBACK_MODELS[0],
+        temperature:0, top_p:1, seed:42, max_tokens:900,
+        messages:[{role:"system",content:grounding()+(facts?factsBlock(facts):"")}, ...state.chat.slice(-12)] })
     });
     const j = await r.json();
     typing.remove();
     if(!r.ok) throw new Error(j.error?.message || ("HTTP "+r.status));
     const raw = j.choices?.[0]?.message?.content || "…";
     const {clean, est} = parseEstimate(raw);
-    coachMsg("coach", clean, est);
+    coachMsg("coach", clean, est, facts);
     state.chat.push({role:"assistant", content:raw});
     if(state.chat.length>20) state.chat = state.chat.slice(-20);
     save();
