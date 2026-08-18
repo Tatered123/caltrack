@@ -8,11 +8,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MacroTrack">
 <meta name="theme-color" content="#F2F0E8">
-<meta name="description" content="MacroTrack — a precise daily macro & calorie tracker with AI food scanning, entirely on your device.">
+<meta name="description" content="MacroTrack — a precise daily macro & calorie tracker with AI food scanning and meal-prep planning, entirely on your device.">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="%23A9E24C"/><circle cx="32" cy="32" r="15" fill="none" stroke="%23122019" stroke-width="7" stroke-dasharray="70 25" stroke-linecap="round" transform="rotate(-90 32 32)"/></svg>'>
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22MacroTrack%22%2C%22short_name%22%3A%22MacroTrack%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%230A110C%22%2C%22theme_color%22%3A%22%230A110C%22%7D'>
-<title>MacroTrack — macros, food scans & trends</title>
+<title>MacroTrack — macros, food scans & meal prep</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -172,6 +172,7 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 
 .log-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 #logTotal{font-family:"Sora";font-weight:800;font-size:16px}
+#plannedTotal{font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:99px;background:color-mix(in srgb,var(--lime) 14%,transparent);color:var(--limeB)}
 .mgroup+.mgroup{margin-top:4px}
 .mgroup-h{display:flex;justify-content:space-between;font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);padding:12px 0 0;border-top:1px dashed var(--line2);margin-top:8px}
 .mgroup:first-child .mgroup-h{border-top:0;margin-top:0;padding-top:2px}
@@ -179,6 +180,7 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .entry+.entry{border-top:1px solid var(--line)}
 .entry .n{font-weight:800;font-size:14px}
 .entry .m{font-size:11.5px;color:var(--muted);font-weight:600}
+.entry.planned .m{color:var(--limeB);font-weight:800}
 .entry .kcal{font-family:"Sora";font-weight:700;font-size:14px;text-align:right}
 .entry .tags{display:flex;gap:5px;justify-content:flex-end}
 .tag{font-size:10px;font-weight:800;padding:2.5px 7px;border-radius:99px}
@@ -187,6 +189,8 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .tag.f{background:color-mix(in srgb,var(--fat) 16%,transparent);color:var(--fat)}
 .del{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:var(--muted);opacity:.55;transition:.2s;grid-row:span 2}
 .del:active{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad);opacity:1}
+.eatnow{font-size:10.5px;font-weight:800;padding:5px 11px;border-radius:99px;background:color-mix(in srgb,var(--lime) 18%,transparent);color:var(--limeB);margin-top:4px;transition:transform .2s var(--spring)}
+.eatnow:active{transform:scale(.9)}
 .empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 10px 12px;color:var(--muted)}
 .empty svg{width:88px;height:70px;margin-bottom:8px}
 .empty .steam{animation:steam 2.4s ease-in-out infinite}
@@ -270,6 +274,23 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .key-card .key-note{font-size:12px;color:var(--muted);margin:8px 0 12px}
 .key-card a{color:var(--limeB);font-weight:800;text-decoration:none}
 
+/* settings accordion */
+.acc{display:flex;flex-direction:column;gap:10px}
+.acc-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden}
+.acc-item.in{animation:rise .5s var(--ease) both}
+.acc-head{display:flex;align-items:center;gap:12px;width:100%;padding:16px 18px;text-align:left}
+.acc-ico{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:17px;background:var(--surface2);border:1px solid var(--line);flex:0 0 36px}
+.acc-tt{flex:1;min-width:0}
+.acc-tt b{font-family:"Sora";font-size:14.5px;display:block}
+.acc-tt small{font-size:11px;color:var(--muted);font-weight:700}
+.acc-chev{width:16px;height:16px;color:var(--muted);transition:transform .4s var(--spring);flex:0 0 16px}
+.acc-item.open .acc-chev{transform:rotate(180deg)}
+.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.acc-item.open .acc-body{grid-template-rows:1fr}
+.acc-inner{overflow:hidden}
+.acc-pad{padding:2px 18px 18px}
+.about{text-align:center;font-size:11.5px;color:var(--muted);padding:14px 0 4px;font-weight:600}
+
 .field{margin-bottom:11px}
 .field label{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .iwrap{position:relative}
@@ -291,11 +312,10 @@ html[data-theme="dark"] #macroNotice{color:#FFDF9E;background:#3A2E12;border-col
 .switch .knob{position:absolute;top:3px;left:3px;width:25px;height:25px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .35s var(--spring)}
 .switch input:checked ~ .tr{background:linear-gradient(140deg,var(--limeA),var(--limeB));border-color:transparent}
 .switch input:checked ~ .knob{transform:translateX(20px)}
-.swatches{display:flex;gap:14px;padding:4px 2px}
+.swatches{display:flex;gap:14px;padding:6px 2px}
 .swatch{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);transition:transform .25s var(--spring)}
 .swatch:active{transform:scale(.85)}
 .swatch.on{outline:2.5px solid var(--ink);outline-offset:3px}
-.about{text-align:center;font-size:11.5px;color:var(--muted);padding:10px 0 4px;font-weight:600}
 
 #fab{position:fixed;z-index:45;right:max(20px,calc(50% - 215px + 20px));bottom:calc(var(--tabH) + env(safe-area-inset-bottom) + 22px);
   width:58px;height:58px;border-radius:50%;background:linear-gradient(140deg,var(--limeA),var(--limeB));color:var(--limeInk);
@@ -445,6 +465,12 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
         <div class="glasses" id="glassRow"></div>
       </div>
 
+      <div class="card" id="plannedCard" hidden>
+        <div class="log-head"><h3>Planned</h3><span id="plannedTotal" class="num"></span></div>
+        <p class="hint" style="margin:-2px 0 4px">Pre-listed meals — they don’t count until you eat them or the time passes.</p>
+        <div id="plannedList"></div>
+      </div>
+
       <div class="qsec" id="quickSec" hidden>
         <span class="kicker">Quick add</span><button id="qManage">Manage</button>
       </div>
@@ -548,81 +574,97 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
     </section>
 
     <section id="tab-settings" class="tab">
-      <div class="card in">
-        <div class="row" style="margin-bottom:12px"><h3>Daily goals</h3><span class="kicker">ceilings</span></div>
-        <p class="hint" style="margin:-4px 0 12px">Goals are ceilings — the sweet spot is landing between 90% and 100%. MacroTrack celebrates zone landings, not overshoots.</p>
-        <div class="field"><label>Calories</label><div class="iwrap"><input type="number" id="gKcal" inputmode="numeric" class="has-unit"><span class="unit">kcal</span></div></div>
-        <div class="grid3">
-          <div class="field"><label>Protein</label><div class="iwrap"><input type="number" id="gP" inputmode="numeric" class="has-unit"><span class="unit">g</span></div></div>
-          <div class="field"><label>Carbs</label><div class="iwrap"><input type="number" id="gC" inputmode="numeric" class="has-unit"><span class="unit">g</span></div></div>
-          <div class="field"><label>Fat</label><div class="iwrap"><input type="number" id="gF" inputmode="numeric" class="has-unit"><span class="unit">g</span></div></div>
-        </div>
-        <div class="field"><label>Water</label><div class="iwrap"><input type="number" id="gWater" inputmode="numeric" class="has-unit"><span class="unit">glasses</span></div></div>
-        <button class="btn primary" id="btnSaveGoals">Save goals</button>
-      </div>
+      <div class="acc">
 
-      <div class="card">
-        <div class="row" style="margin-bottom:12px"><h3>Appearance</h3></div>
-        <div class="field"><label>Theme</label>
-          <div class="seg" id="segTheme"><div class="thumb"></div>
-            <button data-v="system">System</button><button data-v="light">Light</button><button data-v="dark">Dark</button>
-          </div>
+        <div class="acc-item in open">
+          <button class="acc-head"><span class="acc-ico">🎯</span><span class="acc-tt"><b>Daily goals</b><small>ceilings for calories &amp; macros</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
+            <p class="hint" style="margin:0 0 12px">Goals are ceilings — the sweet spot is landing between 90% and 100%. MacroTrack celebrates zone landings, not overshoots.</p>
+            <div class="field"><label>Calories</label><div class="iwrap"><input type="number" id="gKcal" inputmode="numeric" class="has-unit"><span class="unit">kcal</span></div></div>
+            <div class="grid3">
+              <div class="field"><label>Protein</label><div class="iwrap"><input type="number" id="gP" inputmode="numeric" class="has-unit"><span class="unit">g</span></div></div>
+              <div class="field"><label>Carbs</label><div class="iwrap"><input type="number" id="gC" inputmode="numeric" class="has-unit"><span class="unit">g</span></div></div>
+              <div class="field"><label>Fat</label><div class="iwrap"><input type="number" id="gF" inputmode="numeric" class="has-unit"><span class="unit">g</span></div></div>
+            </div>
+            <div class="field"><label>Water</label><div class="iwrap"><input type="number" id="gWater" inputmode="numeric" class="has-unit"><span class="unit">glasses</span></div></div>
+            <button class="btn primary" id="btnSaveGoals">Save goals</button>
+          </div></div></div>
         </div>
-        <div class="field"><label>Accent</label>
-          <div class="swatches" id="accentRow">
-            <button class="swatch on" data-a="matcha" style="background:linear-gradient(140deg,#B7E44A,#2FC178)" aria-label="Matcha"></button>
-            <button class="swatch" data-a="citrus" style="background:linear-gradient(140deg,#FFCE5C,#FF8A3C)" aria-label="Citrus"></button>
-            <button class="swatch" data-a="berry" style="background:linear-gradient(140deg,#FF9EBB,#F0507E)" aria-label="Berry"></button>
-            <button class="swatch" data-a="ocean" style="background:linear-gradient(140deg,#8FE3F2,#3E8EF7)" aria-label="Ocean"></button>
-          </div>
-        </div>
-        <div class="row">
-          <div><b style="font-size:13.5px">Haptic feedback</b><div class="hint">Tiny vibrations on supported devices</div></div>
-          <label class="switch"><input type="checkbox" id="swHaptics" checked><span class="tr"></span><span class="knob"></span></label>
-        </div>
-      </div>
 
-      <div class="card">
-        <div class="row" style="margin-bottom:12px"><h3>Preferences</h3></div>
-        <div class="field"><label>Weight units</label>
-          <div class="seg" id="segUnits"><div class="thumb"></div><button data-v="kg">Kilograms</button><button data-v="lb">Pounds</button></div>
+        <div class="acc-item in" style="animation-delay:.05s">
+          <button class="acc-head"><span class="acc-ico">🎨</span><span class="acc-tt"><b>Appearance</b><small>theme, accent &amp; haptics</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
+            <div class="field"><label>Theme</label>
+              <div class="seg" id="segTheme"><div class="thumb"></div>
+                <button data-v="system">System</button><button data-v="light">Light</button><button data-v="dark">Dark</button>
+              </div>
+            </div>
+            <div class="field"><label>Accent</label>
+              <div class="swatches" id="accentRow">
+                <button class="swatch on" data-a="matcha" style="background:linear-gradient(140deg,#B7E44A,#2FC178)" aria-label="Matcha"></button>
+                <button class="swatch" data-a="citrus" style="background:linear-gradient(140deg,#FFCE5C,#FF8A3C)" aria-label="Citrus"></button>
+                <button class="swatch" data-a="berry" style="background:linear-gradient(140deg,#FF9EBB,#F0507E)" aria-label="Berry"></button>
+                <button class="swatch" data-a="ocean" style="background:linear-gradient(140deg,#8FE3F2,#3E8EF7)" aria-label="Ocean"></button>
+              </div>
+            </div>
+            <div class="row">
+              <div><b style="font-size:13.5px">Haptic feedback</b><div class="hint">Tiny vibrations on supported devices</div></div>
+              <label class="switch"><input type="checkbox" id="swHaptics" checked><span class="tr"></span><span class="knob"></span></label>
+            </div>
+          </div></div></div>
         </div>
-        <div class="field" style="margin-bottom:8px"><label>Meal schedule · groups Today’s log</label></div>
-        <div class="grid3">
-          <div class="field"><label style="letter-spacing:.02em;text-transform:none">Breakfast ends</label><div class="iwrap"><input type="time" id="mB"></div></div>
-          <div class="field"><label style="letter-spacing:.02em;text-transform:none">Lunch ends</label><div class="iwrap"><input type="time" id="mL"></div></div>
-          <div class="field"><label style="letter-spacing:.02em;text-transform:none">Dinner ends</label><div class="iwrap"><input type="time" id="mD"></div></div>
+
+        <div class="acc-item in" style="animation-delay:.1s">
+          <button class="acc-head"><span class="acc-ico">⚙️</span><span class="acc-tt"><b>Preferences</b><small>units &amp; meal schedule</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
+            <div class="field"><label>Weight units</label>
+              <div class="seg" id="segUnits"><div class="thumb"></div><button data-v="kg">Kilograms</button><button data-v="lb">Pounds</button></div>
+            </div>
+            <div class="field" style="margin-bottom:8px"><label>Meal schedule · groups Today’s log</label></div>
+            <div class="grid3">
+              <div class="field"><label style="letter-spacing:.02em;text-transform:none">Breakfast ends</label><div class="iwrap"><input type="time" id="mB"></div></div>
+              <div class="field"><label style="letter-spacing:.02em;text-transform:none">Lunch ends</label><div class="iwrap"><input type="time" id="mL"></div></div>
+              <div class="field"><label style="letter-spacing:.02em;text-transform:none">Dinner ends</label><div class="iwrap"><input type="time" id="mD"></div></div>
+            </div>
+          </div></div></div>
         </div>
-      </div>
 
-      <div class="card">
-        <div class="row" style="margin-bottom:4px"><h3>AI · Coach &amp; FoodScan</h3><span class="kicker">Groq</span></div>
-        <p class="hint" style="margin:6px 0 12px">One free key powers everything. Model changes apply instantly — pick one in the dropdowns or right in the Coach tab.</p>
-        <div class="field"><label>API key</label><div class="iwrap"><input type="password" id="aiKey" placeholder="gsk_…" autocomplete="off"><span class="unit">key</span></div></div>
-        <div class="field"><label>Coach model</label><div class="iwrap"><select id="aiModel"><option value="">— save a key to load models —</option></select></div></div>
-        <div class="field"><label>FoodScan model</label><div class="iwrap"><select id="aiScanModel"></select></div></div>
-        <button class="btn primary" id="btnSaveAI">Save AI settings</button>
-      </div>
-
-      <div class="card">
-        <div class="row" style="margin-bottom:6px"><h3>Food search &amp; scan</h3></div>
-        <p class="hint" style="margin:0">Every food question now checks <b>Open Food Facts</b> first — if the product exists there, real label macros are used instead of AI guesses (📦 badge). FoodScan does the same cross-check after recognizing a photo. Searches are cached, so the same question always gets the same answer.</p>
-      </div>
-
-      <div class="card">
-        <div class="row" style="margin-bottom:12px"><h3>Your data</h3><span class="kicker" id="storageInfo">on-device only</span></div>
-        <div class="btn-row" style="margin-bottom:10px">
-          <button class="btn ghost" id="btnExport">Export JSON</button>
-          <button class="btn ghost" id="btnImport">Import JSON</button>
+        <div class="acc-item in" style="animation-delay:.15s">
+          <button class="acc-head"><span class="acc-ico">🤖</span><span class="acc-tt"><b>AI · Coach &amp; FoodScan</b><small>Groq key &amp; models</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
+            <p class="hint" style="margin:0 0 12px">One free key powers everything. Model changes apply instantly — pick one in the dropdowns or right in the Coach tab.</p>
+            <div class="field"><label>API key</label><div class="iwrap"><input type="password" id="aiKey" placeholder="gsk_…" autocomplete="off"><span class="unit">key</span></div></div>
+            <div class="field"><label>Coach model</label><div class="iwrap"><select id="aiModel"><option value="">— save a key to load models —</option></select></div></div>
+            <div class="field"><label>FoodScan model</label><div class="iwrap"><select id="aiScanModel"></select></div></div>
+            <button class="btn primary" id="btnSaveAI">Save AI settings</button>
+          </div></div></div>
         </div>
-        <div class="btn-row">
-          <button class="btn ghost" id="btnDemo">Load demo data</button>
-          <button class="btn danger" id="btnErase">Erase all data</button>
-        </div>
-        <input type="file" id="importFile" accept="application/json,.json" hidden>
-      </div>
 
-      <p class="about">MacroTrack 2.3 — new: reliable label lookup · bottom-pinned chat · instant model switching · target-zone goals 🌱</p>
+        <div class="acc-item in" style="animation-delay:.2s">
+          <button class="acc-head"><span class="acc-ico">🔎</span><span class="acc-tt"><b>Food search &amp; scan</b><small>how accuracy works</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
+            <p class="hint" style="margin:0">Every food question checks <b>Open Food Facts</b> first — if the product exists there, real label macros are used instead of AI guesses (📦 badge). FoodScan does the same cross-check after recognizing a photo. Searches are cached, so the same question always gets the same answer. Text search in the add-entry sheet is also powered by Open Food Facts — free, no key. Estimates for homemade food are still best-guesses.</p>
+          </div></div></div>
+        </div>
+
+        <div class="acc-item in" style="animation-delay:.25s">
+          <button class="acc-head"><span class="acc-ico">💾</span><span class="acc-tt"><b>Your data</b><small>export, import, demo, erase</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
+            <p class="hint" style="margin:0 0 12px">Everything lives only in this browser — <span id="storageInfo">on-device only</span>. Export regularly.</p>
+            <div class="btn-row" style="margin-bottom:10px">
+              <button class="btn ghost" id="btnExport">Export JSON</button>
+              <button class="btn ghost" id="btnImport">Import JSON</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn ghost" id="btnDemo">Load demo data</button>
+              <button class="btn danger" id="btnErase">Erase all data</button>
+            </div>
+            <input type="file" id="importFile" accept="application/json,.json" hidden>
+          </div></div></div>
+        </div>
+
+      </div>
+      <p class="about">MacroTrack 2.4 — new: planned meals 🗓️ · organized settings · precise label-grounded AI 🌱</p>
     </section>
   </main>
 
@@ -649,6 +691,19 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan{opacity:0;pointer-ev
   <div id="offResults"></div>
   <div class="or">or enter manually</div>
   <div class="field"><label>Name</label><div class="iwrap"><input type="text" id="fName" placeholder="e.g. Chicken rice bowl"></div></div>
+
+  <div class="field">
+    <label>When</label>
+    <div class="seg" id="segWhen"><div class="thumb"></div><button class="on" data-v="now">Now</button><button data-v="later">Schedule for later 🗓️</button></div>
+    <div id="whenPick" hidden style="margin-top:10px">
+      <div class="grid2">
+        <div class="iwrap"><input type="date" id="fDate"></div>
+        <div class="iwrap"><input type="time" id="fTime"></div>
+      </div>
+      <div class="hint" style="margin-top:6px">Planned meals stay out of your totals until you eat them.</div>
+    </div>
+  </div>
+
   <div class="grid2">
     <div class="field"><label>Serving size</label><div class="iwrap"><input type="number" id="fGrams" inputmode="decimal" class="has-unit" placeholder="100"><span class="unit">g</span></div></div>
     <div class="field"><label>Calories</label><div class="iwrap"><input type="number" id="fKcal" inputmode="decimal" class="has-unit" placeholder="0"><span class="unit">kcal</span></div></div>
@@ -746,7 +801,7 @@ if(!storageOK) $("#storageWarn").hidden = false;
 
 const save = ()=>{ if(!storageOK) return;
   try{ localStorage.setItem(KEY, JSON.stringify(state));
-    $("#storageInfo").textContent = (JSON.stringify(state).length/1024).toFixed(1)+" KB on-device";
+    $("#storageInfo").textContent = (JSON.stringify(state).length/1024).toFixed(1)+" KB stored on-device";
   }catch(e){} };
 
 const haptic = (ms=8)=>{ if(state.settings.haptics===false) return; try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} };
@@ -755,21 +810,49 @@ const dstr = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}
 const todayStr = ()=> dstr(new Date());
 const shift = (base,days)=>{ const d=new Date(base); d.setDate(d.getDate()+days); return d; };
 const lastNDates = n => { const t=new Date(), a=[]; for(let i=n-1;i>=0;i--) a.push(dstr(shift(t,-i))); return a; };
-const nowTime = ()=> new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+const nowTime = ()=>{ const d=new Date(); return pad(d.getHours())+":"+pad(d.getMinutes()); };
 const uid = ()=> Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+
+/* ---- time helpers (24h storage, friendly display) ---- */
+function timeTo24(t){
+  if(!t) return "12:00";
+  t=String(t).trim();
+  const m=t.match(/^(\d{1,2}):(\d{2})\s*([AP]M)?$/i);
+  if(!m) return "12:00";
+  let h=+m[1]; const mi=m[2];
+  if(m[3]){ const pm=/pm/i.test(m[3]); if(pm&&h<12)h+=12; if(!pm&&h===12)h=0; }
+  return pad(h)+":"+mi;
+}
+function fmtTime(t){
+  if(!t) return "";
+  if(/[AP]M/i.test(t)) return t;
+  const [h,m]=String(t).split(":").map(Number);
+  const ap=h>=12?"PM":"AM";
+  return `${((h+11)%12)+1}:${pad(m||0)} ${ap}`;
+}
+const tsOf = e => new Date(e.date+"T"+timeTo24(e.time||"12:00")).getTime();
+const isPlanned = e => tsOf(e) > Date.now();
+function whenLabel(e){
+  const today=todayStr(), tom=dstr(shift(new Date(),1));
+  const t=fmtTime(e.time);
+  if(e.date===today) return "Later today · "+t;
+  if(e.date===tom) return "Tomorrow · "+t;
+  const d=new Date(e.date+"T12:00");
+  return d.toLocaleDateString([], {weekday:"short", month:"short", day:"numeric"})+" · "+t;
+}
 
 const entriesOn = d => state.entries.filter(e=>e.date===d);
 function dayTotals(d){
   let kcal=0,p=0,c=0,f=0,unknown=false;
   for(const e of entriesOn(d)){
+    if(isPlanned(e)) continue;                       // planned meals don't count yet
     if(e.kcal!=null&&!isNaN(e.kcal)) kcal+=+e.kcal; else unknown=true;
     if(e.p!=null&&!isNaN(e.p)) p+=+e.p; else unknown=true;
     if(e.c!=null&&!isNaN(e.c)) c+=+e.c; else unknown=true;
     if(e.f!=null&&!isNaN(e.f)) f+=+e.f; else unknown=true;
   }
-  return {kcal,p,c,f,unknown,count:entriesOn(d).length};
+  return {kcal,p,c,f,unknown,count:entriesOn(d).filter(e=>!isPlanned(e)).length};
 }
-/* goal = ceiling: "in the zone" means 90–100% of goal, never above */
 const metGoal = d => { const t=dayTotals(d); if(!t.count) return null;
   return (t.kcal >= state.goals.kcal*0.9 && t.kcal <= state.goals.kcal); };
 function streak(){
@@ -886,6 +969,36 @@ $("#btnWPlus").onclick = ()=>{ if(waterToday()>=state.goals.water+2) return;
 $("#btnWMinus").onclick = ()=>{ if(waterToday()<=0) return;
   state.water[todayStr()] = waterToday()-1; save(); haptic(6); renderWater(); };
 
+/* ---- planned meals ---- */
+function renderPlanned(){
+  const upcoming = state.entries.filter(isPlanned).sort((a,b)=>tsOf(a)-tsOf(b));
+  const card=$("#plannedCard"); card.hidden=!upcoming.length;
+  if(!upcoming.length) return;
+  tween($("#plannedTotal"), upcoming.reduce((s,e)=>s+(+e.kcal||0),0), 600, v=>fmt(v)+" kcal queued");
+  const list=$("#plannedList"); list.innerHTML="";
+  upcoming.slice(0,14).forEach(e=>{
+    const div=document.createElement("div"); div.className="entry planned";
+    div.innerHTML = `
+      <div><div class="n">${esc(e.name)}</div><div class="m">${whenLabel(e)}${e.grams?" · "+e.grams+" g":""}</div></div>
+      <div><div class="kcal num">${e.kcal!=null?fmt(e.kcal):"?"}</div><button class="eatnow">Eat now</button></div>
+      <button class="del" aria-label="Delete plan"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
+    div.querySelector(".eatnow").onclick=()=>{
+      const before = dayTotals(todayStr());
+      e.date=todayStr(); e.time=nowTime(); save(); haptic(12);
+      renderToday();
+      toast(`Logged “${esc(e.name)}” 🍽️`);
+      celebrate(before, dayTotals(todayStr()));
+    };
+    div.querySelector(".del").onclick=()=>{
+      haptic(10);
+      const idx=state.entries.indexOf(e); state.entries.splice(idx,1); save();
+      renderToday();
+      toast(`Removed “${esc(e.name)}” from plans`, {label:"Undo", fn:()=>{ state.entries.splice(idx,0,e); save(); renderToday(); }});
+    };
+    list.appendChild(div);
+  });
+}
+
 let managingQ = false;
 function renderQuick(){
   const row = $("#quickRow"); row.innerHTML="";
@@ -907,9 +1020,8 @@ $("#qManage").onclick = ()=>{ managingQ=!managingQ; haptic(6); renderQuick(); };
 function mealOf(time){
   const m = state.settings.meals;
   const mins = t => { const[a,b]=String(t).split(":").map(Number); return (a||0)*60+(b||0); };
-  let mm=null;
-  try{ const d=new Date("2000-01-01 "+time); if(!isNaN(d)) mm=d.getHours()*60+d.getMinutes(); }catch(e){}
-  if(mm==null) return "Snacks";
+  const [a,b]=timeTo24(time).split(":").map(Number);
+  const mm=(a||0)*60+(b||0);
   if(mm<mins(m.b)) return "Breakfast";
   if(mm<mins(m.l)) return "Lunch";
   if(mm<mins(m.d)) return "Dinner";
@@ -918,7 +1030,7 @@ function mealOf(time){
 function entryRow(e){
   const div=document.createElement("div"); div.className="entry";
   div.innerHTML = `
-    <div><div class="n">${esc(e.name)}</div><div class="m">${e.time||""}${e.grams?" · "+e.grams+" g":""}</div></div>
+    <div><div class="n">${esc(e.name)}</div><div class="m">${fmtTime(e.time)}${e.grams?" · "+e.grams+" g":""}</div></div>
     <div><div class="kcal num">${e.kcal!=null?fmt(e.kcal):"?"}</div><div class="tags">
       ${e.p!=null?`<span class="tag p">P ${r1(e.p)}</span>`:""}
       ${e.c!=null?`<span class="tag c">C ${r1(e.c)}</span>`:""}
@@ -934,7 +1046,7 @@ function entryRow(e){
   return div;
 }
 function renderLog(){
-  const list = $("#logList"), items = entriesOn(todayStr());
+  const list = $("#logList"), items = entriesOn(todayStr()).filter(e=>!isPlanned(e));
   tween($("#logTotal"), dayTotals(todayStr()).kcal, 700, v=>fmt(v)+" kcal");
   if(!items.length){
     list.innerHTML = `<div class="empty">
@@ -942,7 +1054,7 @@ function renderLog(){
         <path class="steam" d="M40 22c-3-4 3-6 0-10"/><path class="steam s2" d="M56 22c-3-4 3-6 0-10"/>
         <path d="M16 38h64a32 20 0 0 1-64 0z" fill="var(--surface2)"/><path d="M36 62h24"/>
       </svg>
-      <b>Nothing logged yet</b><small>Tap ＋ to add a meal, or the 📷 button to let FoodScan guess it from a photo.</small></div>`;
+      <b>Nothing logged yet</b><small>Tap ＋ to add a meal, the 📷 button to scan one, or schedule meal prep with “When → Schedule”.</small></div>`;
     return;
   }
   const order=["Breakfast","Lunch","Dinner","Snacks"], groups={};
@@ -959,12 +1071,14 @@ function renderLog(){
 }
 function renderToday(){
   $("#todayDate").textContent = new Date().toLocaleDateString([], {weekday:"long", month:"short", day:"numeric"});
-  renderRing(); renderMacros(); renderWater(); renderQuick(); renderLog();
+  renderRing(); renderMacros(); renderWater(); renderPlanned(); renderQuick(); renderLog();
   const s = streak();
   $("#hdrStreakN").textContent = s;
   $("#hdrStreak").classList.toggle("zero", s===0);
   $("#hdrStreak").lastChild.textContent = s===1 ? " day" : " days";
 }
+/* auto-promote planned meals when their time arrives */
+setInterval(()=>{ if(!document.hidden && document.body.dataset.tab==="today" && state.entries.some(isPlanned)) renderToday(); }, 60000);
 
 function celebrate(before, after){
   const g=state.goals, msgs=[];
@@ -1133,26 +1247,46 @@ function attachDrag(el, grab){
 attachDrag($("#sheet"), $("#sheetGrab"));
 attachDrag($("#sheetScan"), $("#scanGrab"));
 
-$("#fab").onclick = ()=> openSheetEl($("#sheet"));
+/* ---- add-entry sheet + scheduling ---- */
+let whenMode = "now";
+function setWhen(v){
+  whenMode = v;
+  $("#segWhen")._set(v);
+  $("#whenPick").hidden = v==="now";
+  if(v==="later"){
+    const d=$("#fDate"); d.min=todayStr();
+    if(!d.value) d.value=todayStr();
+    if(!$("#fTime").value) $("#fTime").value=nowTime();
+  }
+}
+initSeg($("#segWhen"), setWhen);
+$("#fab").onclick = ()=>{ setWhen("now"); openSheetEl($("#sheet")); };
 
 const num = id => { const v=$("#"+id).value.trim(); return v===""?null:+v; };
 function addEntry(data){
   const before = dayTotals(todayStr());
-  state.entries.push(Object.assign({ id:uid(), date:todayStr(), time:nowTime() }, data));
-  save();
+  const entry = Object.assign({ id:uid(), date:todayStr(), time:nowTime() }, data);
+  state.entries.push(entry); save();
   renderToday();
   if(document.body.dataset.tab==="analytics") renderAnalytics(false);
-  toast(`Added “${esc(data.name)}” · ${data.kcal!=null?fmt(data.kcal):"?"} kcal`);
-  celebrate(before, dayTotals(todayStr()));
+  if(isPlanned(entry)){
+    toast(`Planned “${esc(entry.name)}” · ${whenLabel(entry)} 🗓️`);
+  } else {
+    toast(`Added “${esc(entry.name)}” · ${entry.kcal!=null?fmt(entry.kcal):"?"} kcal`);
+    celebrate(before, dayTotals(todayStr()));
+  }
 }
 $("#btnAddEntry").onclick = ()=>{
   const name = $("#fName").value.trim() || "Untitled";
-  const e = { name, grams:num("fGrams"), kcal:num("fKcal"), p:num("fP"), c:num("fC"), f:num("fF") };
+  let date=todayStr(), time=nowTime();
+  if(whenMode==="later"){ date=$("#fDate").value||date; time=$("#fTime").value||time; }
+  const e = { name, grams:num("fGrams"), kcal:num("fKcal"), p:num("fP"), c:num("fC"), f:num("fF"), date, time };
   if($("#qSwitch").checked && !state.quick.some(q=>q.name===name))
     state.quick.push({name,grams:e.grams,kcal:e.kcal,p:e.p,c:e.c,f:e.f});
   addEntry(e); haptic(12);
   ["fName","fGrams","fKcal","fP","fC","fF"].forEach(id=>$("#"+id).value="");
   $("#qSwitch").checked=false; $("#offResults").innerHTML=""; $("#offSearch").value="";
+  setWhen("now");
   closeSheetEl();
 };
 
@@ -1177,7 +1311,6 @@ function foodQueryFrom(text){
     .replace(/[?!.,+]/g," ").replace(/\s+/g," ").trim();
   return q.length>=3 ? q : text.trim();
 }
-/* Deterministic label lookup: cached, multi-variant, popularity-ranked. */
 const offCache = new Map();
 async function lookupOFF(query){
   if(!query || query.length<3) return null;
@@ -1199,7 +1332,7 @@ async function lookupOFF(query){
         const hay = normStr(p.product_name+" "+(p.brands||""));
         let score=0;
         const qn = normStr(v);
-        if(qn.length>=5 && hay.includes(qn)) score=1;               // full phrase found → confident
+        if(qn.length>=5 && hay.includes(qn)) score=1;
         else if(qw.length){
           const pw = hay.split(" ").filter(w=>w.length>2);
           let hits=0;
@@ -1207,7 +1340,7 @@ async function lookupOFF(query){
           score = hits/qw.length;
         }
         if(score < 0.45) continue;
-        const pop = Math.min(1,(+p.unique_scans_n||0)/50000);        // popularity tiebreak
+        const pop = Math.min(1,(+p.unique_scans_n||0)/50000);
         const total = score + pop*0.05;
         if(total > bestScore){ bestScore=total; best=p; bestKcal=kcal; }
       }
@@ -1264,7 +1397,7 @@ async function searchOFFUI(q){
   }catch(err){ box.innerHTML='<div class="off-status">Search unavailable — enter manually below.</div>'; }
 }
 
-/* ============ FOODSCAN (vision + label cross-check) ============ */
+/* ============ FOODSCAN ============ */
 const VISION_MODELS = ["meta-llama/llama-4-scout-17b-16e-instruct","meta-llama/llama-4-maverick-17b-128e-instruct","llama-3.2-90b-vision-prebuilt"];
 const SCAN_PROMPT = `You are FoodScan, a precise food-recognition engine inside a macro-tracking app.
 Look at the photo. Identify the food or meal, estimate the cooked portion weight in grams, and estimate nutrition for what is visible.
@@ -1387,14 +1520,14 @@ $("#btnScanAdd").onclick = ()=>{
   haptic(12); closeSheetEl();
 };
 
-/* ============ COACH (Precise mode + label grounding) ============ */
+/* ============ COACH ============ */
 const FALLBACK_MODELS = ["llama-3.3-70b-versatile","llama-3.1-8b-instant","meta-llama/llama-4-scout-17b-16e-instruct","openai/gpt-oss-120b"];
 let modelList = [];
 const coachReady = ()=> !!state.settings.key;
 function syncModelSelects(){
   const cur = state.settings.model;
   const opts = [...modelList];
-  if(cur && !opts.includes(cur)) opts.unshift(cur);   // never drop the saved model
+  if(cur && !opts.includes(cur)) opts.unshift(cur);
   const html = opts.map(id=>`<option value="${esc(id)}">${esc(id.split("/").pop())}</option>`).join("");
   $("#aiModel").innerHTML = html || `<option value="">— save a key to load models —</option>`;
   $("#coachModelSel").innerHTML = html || `<option value="">no model yet</option>`;
@@ -1422,7 +1555,7 @@ function renderCoachState(){
   $("#coachChat").hidden = !coachReady();
   if(coachReady()){
     $("#setupKey").value = state.settings.key;
-    if(!state.chat.length) coachMsg("coach", "Hey! I’m Coach — grounded in today’s numbers, and for branded foods I pull real label data from Open Food Facts (you’ll see a 📦 badge). What are we eating? 🥗");
+    if(!state.chat.length) coachMsg("coach", "Hey! I’m Coach — grounded in today’s numbers (including your planned meals), and for branded foods I pull real label data from Open Food Facts (you’ll see a 📦 badge). What are we eating? 🥗");
   }
 }
 $("#btnSetupSave").onclick = async ()=>{
@@ -1470,9 +1603,10 @@ function parseEstimate(text){
 }
 function grounding(){
   const t = dayTotals(todayStr()), g = state.goals;
-  const recent = entriesOn(todayStr()).slice(-6).map(e=>`${e.name} (${e.kcal??"?"} kcal, P${e.p??"?"} C${e.c??"?"} F${e.f??"?"})`).join("; ")||"nothing yet";
+  const recent = entriesOn(todayStr()).filter(e=>!isPlanned(e)).slice(-6).map(e=>`${e.name} (${e.kcal??"?"} kcal, P${e.p??"?"} C${e.c??"?"} F${e.f??"?"})`).join("; ")||"nothing yet";
+  const planned = entriesOn(todayStr()).filter(isPlanned).map(e=>`${e.name} (${e.kcal??"?"} kcal at ${fmtTime(e.time)})`).join("; ");
   return `You are Coach inside MacroTrack, a macro-tracking app. Today is ${new Date().toDateString()}.
-Current numbers: eaten ${Math.round(t.kcal)} of ${g.kcal} kcal goal (${Math.max(0,Math.round(g.kcal-t.kcal))} left), protein ${Math.round(t.p)}/${g.p} g, carbs ${Math.round(t.c)}/${g.c} g, fat ${Math.round(t.f)}/${g.f} g, water ${waterToday()}/${g.water} glasses. Logged today: ${recent}.
+Current numbers: eaten ${Math.round(t.kcal)} of ${g.kcal} kcal goal (${Math.max(0,Math.round(g.kcal-t.kcal))} left), protein ${Math.round(t.p)}/${g.p} g, carbs ${Math.round(t.c)}/${g.c} g, fat ${Math.round(t.f)}/${g.f} g, water ${waterToday()}/${g.water} glasses. Logged today: ${recent}.${planned?`\nAlready planned for later today: ${planned}. Count these when advising how much more fits.`:""}
 Goals are CEILINGS: the user wants to finish the day between ${Math.round(g.kcal*0.9)} and ${g.kcal} kcal ("the zone") and never above. Advise accordingly.
 Be concise, warm, specific, under 120 words unless asked for a plan.
 Rules for food estimates:
@@ -1495,7 +1629,6 @@ async function coachSend(text){
   $("#chatScroll").appendChild(typing); $("#chatScroll").scrollTop=1e6;
   let facts=null;
   try{
-    // accuracy layer: search labels for EVERYTHING except pure progress questions
     if(!PROGRESS.test(text)) facts = await lookupOFF(foodQueryFrom(text));
     const r = await fetch("https://api.groq.com/openai/v1/chat/completions",{
       method:"POST", headers:{ "Content-Type":"application/json", Authorization:"Bearer "+state.settings.key },
@@ -1522,6 +1655,12 @@ $("#chatInput").addEventListener("keydown", e=>{ if(e.key==="Enter"){ const v=e.
 $$("#coachChips .chip").forEach(c=> c.onclick = ()=> coachSend(c.textContent));
 
 /* ============ SETTINGS ============ */
+$$(".acc-head").forEach(h=> h.onclick = ()=>{
+  const item = h.closest(".acc-item");
+  const wasOpen = item.classList.contains("open");
+  $$(".acc-item").forEach(i=>i.classList.remove("open"));
+  if(!wasOpen){ item.classList.add("open"); haptic(6); }
+});
 function fillGoals(){
   $("#gKcal").value=state.goals.kcal; $("#gP").value=state.goals.p;
   $("#gC").value=state.goals.c; $("#gF").value=state.goals.f; $("#gWater").value=state.goals.water;
@@ -1567,7 +1706,7 @@ $("#importFile").onchange = e=>{
   rd.readAsText(f); e.target.value="";
 };
 $("#btnErase").onclick = ()=>{
-  if(!confirm("Erase all entries, water, weight and quick-add items? Settings & AI key are kept.")) return;
+  if(!confirm("Erase all entries, plans, water, weight and quick-add items? Settings & AI key are kept.")) return;
   const keep = state.settings;
   state = DEFAULTS(); state.settings = keep; save();
   fillSettings(); renderToday(); renderCoachState(); toast("All data erased");
@@ -1599,6 +1738,12 @@ function loadDemo(){
     if(rnd()<0.85) state.weights[d]=+(78-(29-i)*0.06+(rnd()-0.5)*0.6).toFixed(1);
   }
   state.weights[todayStr()] = state.weights[todayStr()] ?? +(78-29*0.06).toFixed(1);
+  // sample meal-prep plans
+  const later=new Date(Date.now()+3*3600e3);
+  state.entries.push({id:uid(),date:todayStr(),time:pad(later.getHours())+":"+pad(later.getMinutes()),
+    name:"Protein shake (prepped)",grams:350,kcal:240,p:32,c:18,f:4});
+  state.entries.push({id:uid(),date:dstr(shift(new Date(),1)),time:"12:40",
+    name:"Chicken rice bowl (prepped)",grams:420,kcal:610,p:44,c:62,f:16});
   state.quick=[
     {name:"Protein shake",grams:350,kcal:240,p:32,c:18,f:4},
     {name:"Greek yogurt bowl",grams:250,kcal:220,p:20,c:24,f:5},
