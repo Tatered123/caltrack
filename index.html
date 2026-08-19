@@ -17,7 +17,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ===== Matcha (default) ===== */
 :root{--bg:#F2F0E8;--surface:#FFFFFF;--surface2:#F6F5ED;--pageBg:#E6E3D8;--ink:#122019;--muted:#67756B;
 --line:rgba(18,32,25,.10);--line2:rgba(18,32,25,.16);
 --limeA:#B7E44A;--limeB:#2FC178;--lime:#79C92F;--limeInk:#17321B;
@@ -43,7 +42,6 @@ html[data-corners="soft"]{--r-card:28px;--r-field:18px}
 html[data-corners="sharp"]{--r-card:12px;--r-field:9px}
 html[data-density="compact"]{--cardPad:13px;--cardGap:10px}
 body.noanim *,body.noanim *::before,body.noanim *::after{animation:none!important;transition:none!important}
-
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 html.lock{overflow:hidden}
@@ -56,7 +54,6 @@ input,select{font:inherit;color:inherit}
 #app::before{content:"";position:absolute;inset:0 0 auto 0;height:340px;pointer-events:none;background:radial-gradient(120% 90% at 18% -8%, color-mix(in srgb,var(--limeA) 34%,transparent), transparent 60%),radial-gradient(90% 70% at 95% -10%, color-mix(in srgb,var(--water) 14%,transparent), transparent 55%)}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:var(--grainOp);mix-blend-mode:var(--grainBlend);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E")}
 @media (min-width:480px){#app{border-left:1px solid var(--line);border-right:1px solid var(--line);box-shadow:0 0 120px rgba(0,0,0,.18)}}
-
 #topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 10px) 20px 10px;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .brand{display:flex;align-items:center;gap:9px;font-family:"Sora";font-weight:800;font-size:17px;letter-spacing:-.02em}
 .brand .mark{width:26px;height:26px;border-radius:8px;background:linear-gradient(140deg,var(--limeA),var(--limeB));display:grid;place-items:center;box-shadow:0 4px 10px -3px color-mix(in srgb,var(--limeB) 55%,transparent)}
@@ -65,7 +62,6 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opa
 #hdrStreak svg{width:14px;height:14px;color:#FF8A3C}
 #hdrStreak.zero{opacity:.55}
 #storageWarn{margin:0 20px 4px;padding:10px 14px;border-radius:14px;font-size:12.5px;font-weight:600;color:var(--notice-ink);background:var(--notice-bg);border:1px solid var(--notice-line)}
-
 main{position:relative;z-index:1;padding:6px 20px 0}
 .tab{display:none}
 .tab.active{display:block;animation:tabIn .4s var(--ease) both}
@@ -77,7 +73,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .card h3{margin:0;font-family:"Sora";font-size:15px;font-weight:700}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .hint{font-size:12px;color:var(--muted)}
-
 #hero .date-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
 #hero .date{font-size:12.5px;font-weight:700;color:var(--muted)}
 .ring-wrap{position:relative;width:236px;margin:6px auto 2px}
@@ -100,11 +95,9 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .mini-stats div+div{border-left:1px solid var(--line)}
 #fitsRow{display:flex;gap:8px;overflow-x:auto;margin-top:8px;padding:2px;scrollbar-width:none}
 #fitsRow::-webkit-scrollbar{display:none}
-
 #macroNotice{display:none;margin-bottom:var(--cardGap);padding:11px 14px;border-radius:16px;font-size:12.5px;font-weight:700;width:100%;text-align:left;color:var(--notice-ink);background:var(--notice-bg);border:1px solid var(--notice-line)}
 #macroNotice.show{display:flex;gap:8px;align-items:center;animation:rise .4s var(--ease) both}
 #macroNotice:active{transform:scale(.98)}
-
 .mrow{display:grid;grid-template-columns:14px 1fr auto;grid-template-rows:auto auto;gap:4px 10px;align-items:center;padding:10px 0}
 .mrow+.mrow{border-top:1px solid var(--line)}
 .mdot{width:11px;height:11px;border-radius:4px;grid-row:span 2}
@@ -121,7 +114,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .mrow.f .mdot{background:var(--fat)}.mrow.f .bar i{background:linear-gradient(90deg,#C3ADF7,var(--fat))}
 .mrow.over .bar i{background:linear-gradient(90deg,#FF8A7A,var(--bad))}
 .mrow.over .val{color:var(--bad)}
-
 .water-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
 #waterCount{font-family:"Sora";font-weight:800;font-size:20px}
 #waterCount small{color:var(--muted);font-size:13px;font-weight:700}
@@ -134,12 +126,10 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .step button{width:40px;height:40px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);font-size:20px;font-weight:800;display:grid;place-items:center;transition:transform .25s var(--spring),background .2s;box-shadow:var(--shadow)}
 .step button:active{transform:scale(.86)}
 .step button.plus{background:linear-gradient(140deg,var(--limeA),var(--limeB));color:var(--limeInk);border:0}
-
 #winBig{font-family:"Sora";font-weight:800;font-size:26px;margin-top:4px}
 #winTrack{position:relative;height:10px;border-radius:99px;background:var(--surface2);margin-top:14px}
 #winFill{position:absolute;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,var(--limeA),var(--limeB));transition:left .6s var(--ease),width .6s var(--ease)}
 #winNow{position:absolute;top:-3px;width:4px;height:16px;border-radius:2px;background:var(--ink);opacity:.6}
-
 .log-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 #logTotal{font-family:"Sora";font-weight:800;font-size:16px}
 #plannedTotal{font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:99px;background:color-mix(in srgb,var(--lime) 14%,transparent);color:var(--limeB)}
@@ -173,7 +163,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 @keyframes steam{0%,100%{opacity:0;transform:translateY(4px)}40%{opacity:.9}70%{opacity:0;transform:translateY(-6px)}}
 .empty b{color:var(--ink);font-family:"Sora";font-size:14px;display:block;margin-bottom:3px}
 .empty small{font-size:12px}
-
 #quickRow{display:flex;gap:8px;overflow-x:auto;padding:2px 4px 8px;margin:0 -2px;scrollbar-width:none}
 #quickRow::-webkit-scrollbar{display:none}
 .qchip{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:9px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .25s var(--spring);position:relative}
@@ -186,12 +175,10 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 @keyframes wig{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
 .qsec{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 8px}
 #qManage{font-size:11.5px;font-weight:800;color:var(--limeB)}
-
 .seg{position:relative;display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:3px}
 .seg .thumb{position:absolute;top:3px;bottom:3px;left:3px;background:var(--surface);border-radius:99px;box-shadow:var(--shadow);transition:transform .4s var(--spring),width .3s var(--spring)}
 .seg button{position:relative;z-index:1;flex:1;padding:7px 14px;font-weight:800;font-size:12.5px;color:var(--muted);border-radius:99px;transition:color .25s;white-space:nowrap}
 .seg button.on{color:var(--ink)}
-
 #trendChart svg{display:block;width:100%}
 .axis-t{font:600 9.5px "Manrope";fill:var(--muted)}
 .goal-lbl{font:800 9.5px "Manrope";fill:var(--muted)}
@@ -231,8 +218,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .strip-legend i{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px}
 #weightNow{font-family:"Sora";font-weight:800;font-size:34px;line-height:1}
 #weightDelta{font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:99px;background:var(--surface2);border:1px solid var(--line)}
-
-/* GYM */
 .ex-n{font-weight:800;font-size:15px}
 .ex-c{font-family:"Sora";font-weight:800;font-size:18px;color:var(--muted)}
 .ex-c.is-done{color:var(--limeB)}
@@ -256,7 +241,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .gset.done input{color:var(--muted)}
 .addset{margin-top:10px;font-size:12px;font-weight:800;color:var(--cyan);padding:6px 4px}
 @keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
-
 #restBar{position:fixed;left:16px;right:104px;bottom:calc(var(--tabH) + env(safe-area-inset-bottom) + 92px);z-index:46;background:var(--surface);border:1.5px solid var(--cyan);border-radius:18px;padding:10px 14px;box-shadow:var(--shadow-lg);transform:translateY(16px);opacity:0;pointer-events:none;transition:.3s var(--spring)}
 #restBar.show{transform:none;opacity:1;pointer-events:auto}
 .rest-inner{display:flex;align-items:center;gap:10px}
@@ -266,7 +250,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .rest-btn.skip{margin-left:auto}
 .rest-track{height:3px;background:color-mix(in srgb,var(--cyan) 15%,transparent);border-radius:99px;margin-top:9px;overflow:hidden}
 #restFill{display:block;height:100%;background:var(--cyan);transition:width .25s linear}
-
 .chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border:1px solid var(--line);border-radius:99px;font-size:10px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;background:var(--surface2)}
 .chip-volt{color:var(--limeB);border-color:color-mix(in srgb,var(--lime) 35%,transparent)}
 .chip-row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
@@ -300,8 +283,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .copy-select{flex:1;min-width:0}
 .gym-rest-hero{text-align:center;padding:12px 4px}
 .gym-rest-hero .big{font-size:40px;margin-bottom:6px}
-
-/* COACH */
 #coachChat{display:flex;flex-direction:column;height:calc(100dvh - var(--topH) - var(--tabH) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 22px);min-height:300px}
 #chatScroll{flex:1;overflow-y:auto;padding:4px 2px 10px;display:flex;flex-direction:column;gap:10px;scrollbar-width:none}
 #chatScroll::-webkit-scrollbar{display:none}
@@ -328,8 +309,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .model-chip{max-width:170px;font-size:11px;font-weight:800;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:6px 10px;outline:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;appearance:none;-webkit-appearance:none;box-shadow:var(--shadow)}
 .key-card .key-note{font-size:12px;color:var(--muted);margin:8px 0 12px}
 .key-card a{color:var(--limeB);font-weight:800;text-decoration:none}
-
-/* SETTINGS */
 .acc{display:flex;flex-direction:column;gap:10px}
 .acc-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden}
 .acc-item.in{animation:rise .5s var(--ease) both}
@@ -352,7 +331,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .ttile .dot{width:26px;height:26px;border-radius:50%;flex:0 0 26px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
 .ttile b{font-size:12.5px;display:block}
 .ttile small{font-size:9.5px;color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-
 .field{margin-bottom:11px}
 .field label{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .iwrap{position:relative}
@@ -377,8 +355,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .icon-only{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);transition:transform .2s var(--spring)}
 .icon-only:active{transform:scale(.85)}
 .icon-only svg{width:15px;height:15px}
-
-/* SHEETS */
 #backdrop{position:fixed;inset:0;z-index:80;background:rgba(10,16,10,.4);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .35s}
 #backdrop.show{opacity:1;pointer-events:auto}
 .sheet{position:fixed;z-index:90;left:50%;bottom:0;transform:translate(-50%,105%);width:min(430px,100%);max-height:90dvh;overflow-y:auto;background:var(--sheet-bg);border-radius:28px 28px 0 0;box-shadow:var(--shadow-lg);padding:10px 22px calc(26px + env(safe-area-inset-bottom));transition:transform .55s var(--spring);border-top:1px solid var(--line)}
@@ -427,8 +403,6 @@ main{position:relative;z-index:1;padding:6px 20px 0}
 .fstat b{display:block;font-family:"Sora";font-weight:800;font-size:22px;color:var(--limeB)}
 .fstat span{font-size:9.5px;font-weight:800;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
 .fwarn{font-size:12px;color:var(--warn);font-weight:700;margin-bottom:12px}
-
-/* FABS / TABBAR / TOASTS */
 #fab{position:fixed;z-index:45;right:max(20px,calc(50% - 215px + 20px));bottom:calc(var(--tabH) + env(safe-area-inset-bottom) + 22px);width:58px;height:58px;border-radius:50%;background:linear-gradient(140deg,var(--limeA),var(--limeB));color:var(--limeInk);display:grid;place-items:center;box-shadow:0 14px 30px -8px color-mix(in srgb,var(--limeB) 65%,transparent);transition:transform .3s var(--spring),opacity .3s;animation:fabIn .6s .3s var(--spring) both}
 #fab svg{width:24px;height:24px}
 #fab:active{transform:scale(.85) rotate(90deg)}
@@ -474,10 +448,8 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
   <div id="storageWarn" hidden>Preview mode — storage can’t persist here, so data resets on reload. Host this file to use Better You for real.</div>
 
   <main>
-    <!-- TODAY -->
     <section id="tab-today" class="tab active">
       <button id="macroNotice">⚠️ <span>Some entries have unknown macros — tap to find &amp; fix them.</span></button>
-
       <div class="card in" id="hero">
         <div class="date-row"><span class="kicker">Today</span><span class="date" id="todayDate"></span></div>
         <div class="ring-wrap">
@@ -506,14 +478,12 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
           <div id="fitsRow"></div>
         </div>
       </div>
-
       <div class="card" id="macroCard">
         <div class="row" style="margin-bottom:4px"><h3>Macros</h3><span class="hint" id="macroHint"></span></div>
         <div class="mrow p"><span class="mdot"></span><span class="name">Protein</span><span class="val num"><span id="pNow">0</span><small> / <span id="pGoal">150</span> g</small></span><div class="bar"><i id="pBar"></i></div></div>
         <div class="mrow c"><span class="mdot"></span><span class="name">Carbs</span><span class="val num"><span id="cNow">0</span><small> / <span id="cGoal">200</span> g</small></span><div class="bar"><i id="cBar"></i></div></div>
         <div class="mrow f"><span class="mdot"></span><span class="name">Fat</span><span class="val num"><span id="fNow">0</span><small> / <span id="fGoal">65</span> g</small></span><div class="bar"><i id="fBar"></i></div></div>
       </div>
-
       <div class="card">
         <div class="water-head">
           <div><h3>Water</h3><div id="waterCount" class="num" style="margin-top:4px">0 <small id="waterOf">of 8 glasses</small></div></div>
@@ -524,7 +494,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
         </div>
         <div class="glasses" id="glassRow"></div>
       </div>
-
       <div class="card">
         <div class="row" style="margin-bottom:2px"><h3>Eating window</h3><span class="hint" id="winState"></span></div>
         <div id="winBig">—</div>
@@ -532,18 +501,15 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
         <div id="winTrack"><div id="winFill"></div><i id="winNow"></i></div>
         <div class="row" style="margin-top:5px"><span class="hint">6 AM</span><span class="hint">12 PM</span><span class="hint">6 PM</span><span class="hint">12 AM</span></div>
       </div>
-
       <div class="card" id="plannedCard" hidden>
         <div class="log-head"><h3>Planned</h3><span id="plannedTotal" class="num"></span></div>
         <p class="hint" style="margin:-2px 0 4px">Pre-listed meals — they don’t count until you eat them or the time passes.</p>
         <div id="plannedList"></div>
       </div>
-
       <div class="qsec" id="quickSec" hidden>
         <span class="kicker">Quick add</span><button id="qManage">Manage</button>
       </div>
       <div id="quickRow"></div>
-
       <div class="card">
         <div class="log-head">
           <h3>Today’s log</h3>
@@ -556,7 +522,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- ANALYTICS -->
     <section id="tab-analytics" class="tab">
       <div class="card in">
         <div class="row" style="margin-bottom:14px">
@@ -576,17 +541,14 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
           <button class="btn ghost" id="btnDemoEmpty" style="margin-top:14px;width:auto;padding:10px 18px">Load sample data</button>
         </div>
       </div>
-
       <div class="card">
         <div class="row" style="margin-bottom:12px"><h3>Weekly report card</h3><span class="hint" id="reportRange"></span></div>
         <div id="reportBody"></div>
       </div>
-
       <div class="card" id="splitCard">
         <div class="row" style="margin-bottom:12px"><h3>Macro calorie split</h3><span class="hint" id="splitRange">last 7 days</span></div>
         <div class="donut-wrap"><svg id="donutSvg" viewBox="0 0 148 148"></svg><div class="legend" id="splitLegend"></div></div>
       </div>
-
       <div class="card">
         <div class="row" style="margin-bottom:10px"><h3>Weight</h3><span id="weightDelta" class="num" hidden></span></div>
         <div class="row" style="align-items:center;margin-bottom:6px">
@@ -598,7 +560,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
         </div>
         <div id="weightChart"></div>
       </div>
-
       <div class="card">
         <h3>Consistency</h3>
         <div class="streak-big">
@@ -614,7 +575,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- COACH -->
     <section id="tab-coach" class="tab">
       <div class="card key-card in" id="coachSetup">
         <div class="row"><h3>Coach</h3><span class="kicker">powered by Groq</span></div>
@@ -622,7 +582,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
         <div class="field"><div class="iwrap"><input type="password" id="setupKey" placeholder="gsk_…" autocomplete="off"><span class="unit">key</span></div></div>
         <button class="btn primary" id="btnSetupSave">Save key &amp; connect</button>
       </div>
-
       <div id="coachChat" hidden>
         <div class="row" style="margin:2px 2px 8px">
           <div style="display:flex;align-items:center;gap:8px;min-width:0">
@@ -648,16 +607,13 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- GYM -->
     <section id="tab-gym" class="tab">
       <div class="card in" style="padding:10px 12px">
         <div class="seg" id="segGym"><div class="thumb"></div>
           <button class="on" data-v="today">Session</button><button data-v="history">History</button><button data-v="schedule">Schedule</button>
         </div>
       </div>
-
       <div id="gymToday"></div>
-
       <div id="gymHistory" hidden>
         <div class="card">
           <div class="row" style="margin-bottom:6px"><h3>This week</h3><span class="hint">last 7 days</span></div>
@@ -669,27 +625,24 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
         </div>
         <div id="histList"></div>
       </div>
-
       <div id="gymSchedule" hidden>
         <div id="schedDays"></div>
         <div class="card">
-          <div class="row" style="margin-bottom:10px"><h3>Timer</h3></div>
+          <div class="row" style="margin-bottom:10px"><h3>Default rest timer</h3></div>
           <div class="row">
             <div><b style="font-size:13.5px">Auto rest timer</b><div class="hint">Starts after every completed set</div></div>
             <label class="switch"><input type="checkbox" id="prefAutoRest" checked><span class="tr"></span><span class="knob"></span></label>
           </div>
           <div class="row" style="margin-top:12px">
-            <div><b style="font-size:13.5px">Rest length</b></div>
+            <div><b style="font-size:13.5px">Default rest length</b><div class="hint">Used unless a day sets its own</div></div>
             <div class="iwrap" style="width:110px"><input type="number" id="prefRest" inputmode="numeric" class="has-unit"><span class="unit">sec</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SETTINGS -->
     <section id="tab-settings" class="tab">
       <div class="acc">
-
         <div class="acc-item in open">
           <button class="acc-head"><span class="acc-ico">🎯</span><span class="acc-tt"><b>Daily goals</b><small>ceilings for calories &amp; macros</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
@@ -704,7 +657,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
             <button class="btn primary" id="btnSaveGoals">Save goals</button>
           </div></div></div>
         </div>
-
         <div class="acc-item in" style="animation-delay:.05s">
           <button class="acc-head"><span class="acc-ico">🎨</span><span class="acc-tt"><b>Appearance</b><small>themes, layout &amp; style</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
@@ -732,7 +684,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
             <p class="hint" style="margin-top:8px">Place it next to this file and re-add to Home Screen for the crispest icon.</p>
           </div></div></div>
         </div>
-
         <div class="acc-item in" style="animation-delay:.1s">
           <button class="acc-head"><span class="acc-ico">⚙️</span><span class="acc-tt"><b>Preferences</b><small>units &amp; meal schedule</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
@@ -747,7 +698,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
             </div>
           </div></div></div>
         </div>
-
         <div class="acc-item in" style="animation-delay:.15s">
           <button class="acc-head"><span class="acc-ico">🤖</span><span class="acc-tt"><b>AI · Coach &amp; FoodScan</b><small>Groq key &amp; models</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
@@ -758,14 +708,12 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
             <button class="btn primary" id="btnSaveAI">Save AI settings</button>
           </div></div></div>
         </div>
-
         <div class="acc-item in" style="animation-delay:.2s">
           <button class="acc-head"><span class="acc-ico">🔎</span><span class="acc-tt"><b>Food search &amp; scan</b><small>how accuracy works</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
             <p class="hint" style="margin:0">Every food question checks <b>Open Food Facts</b> first — real label macros beat AI guesses (📦 badge). FoodScan cross-checks photos the same way. Searches are cached for consistent answers.</p>
           </div></div></div>
         </div>
-
         <div class="acc-item in" style="animation-delay:.25s">
           <button class="acc-head"><span class="acc-ico">💾</span><span class="acc-tt"><b>Your data</b><small>export, import, demo, erase</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
@@ -781,9 +729,8 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
             <input type="file" id="importFile" accept="application/json,.json" hidden>
           </div></div></div>
         </div>
-
       </div>
-      <p class="about">Better You 1.0.1 — food · scans · training · all on-device 🌱</p>
+      <p class="about">Better You 1.0.2 — food · scans · training · all on-device 🌱</p>
     </section>
   </main>
 
@@ -812,7 +759,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
 
 <div id="backdrop"></div>
 
-<!-- ADD / EDIT ENTRY -->
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Add entry">
   <div class="grab" id="sheetGrab"></div>
   <div class="sheet-head"><div><h2 id="addTitle">Add entry</h2><span class="hint" id="addSub">review, tweak or schedule — then confirm</span></div><button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -852,7 +798,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
   <button class="btn primary" id="btnAddEntry">Add entry</button>
 </div>
 
-<!-- FOODSCAN -->
 <div class="sheet" id="sheetScan" role="dialog" aria-modal="true" aria-label="FoodScan">
   <div class="grab" id="scanGrab"></div>
   <div class="sheet-head">
@@ -887,7 +832,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
   <button class="linkish" id="btnScanChange" hidden>Use a different photo…</button>
 </div>
 
-<!-- BROWSE DAY -->
 <div class="sheet" id="sheetDay" role="dialog" aria-modal="true" aria-label="Browse a day">
   <div class="grab" id="dayGrab"></div>
   <div class="sheet-head"><div><h2 id="dayTitle">Browse a day</h2><span class="hint">log past meals, edit or fix anything</span></div><button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -897,7 +841,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
   <button class="btn primary" id="btnDayAdd" style="margin-top:12px">＋ Add meal to this day</button>
 </div>
 
-<!-- FINISH WORKOUT -->
 <div class="sheet" id="sheetFinish" role="dialog" aria-modal="true" aria-label="Finish workout">
   <div class="grab" id="finishGrab"></div>
   <div class="sheet-head"><div><h2>Finish workout?</h2><span class="hint">session summary</span></div><button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -926,13 +869,13 @@ let storageOK=true;
 try{localStorage.setItem("__mt","1");localStorage.removeItem("__mt");}catch(e){storageOK=false;}
 
 const DEFAULT_GYM_SCHED=()=>[
-  {name:"Push Day",rest:false,exercises:[{n:"Bench Press",s:4,r:8,w:60},{n:"Overhead Press",s:3,r:10,w:40},{n:"Incline DB Press",s:3,r:10,w:22},{n:"Triceps Pushdown",s:3,r:12,w:25}]},
-  {name:"Pull Day",rest:false,exercises:[{n:"Deadlift",s:3,r:5,w:100},{n:"Pull-ups",s:4,r:8,w:0},{n:"Barbell Row",s:3,r:10,w:60},{n:"Bicep Curl",s:3,r:12,w:20}]},
-  {name:"Leg Day",rest:false,exercises:[{n:"Back Squat",s:4,r:6,w:80},{n:"Romanian Deadlift",s:3,r:8,w:70},{n:"Leg Press",s:3,r:12,w:120},{n:"Calf Raise",s:4,r:15,w:40}]},
-  {name:"Rest Day",rest:true,exercises:[]},
-  {name:"Upper Body",rest:false,exercises:[{n:"Bench Press",s:4,r:8,w:60},{n:"Barbell Row",s:4,r:8,w:60},{n:"Overhead Press",s:3,r:10,w:40},{n:"Lat Pulldown",s:3,r:12,w:50}]},
-  {name:"Lower Body",rest:false,exercises:[{n:"Front Squat",s:4,r:8,w:60},{n:"Walking Lunge",s:3,r:12,w:24},{n:"Leg Curl",s:3,r:12,w:40},{n:"Calf Raise",s:4,r:15,w:40}]},
-  {name:"Rest Day",rest:true,exercises:[]}];
+  {name:"Push Day",rest:false,restSec:0,exercises:[{n:"Bench Press",s:4,r:8,w:60},{n:"Overhead Press",s:3,r:10,w:40},{n:"Incline DB Press",s:3,r:10,w:22},{n:"Triceps Pushdown",s:3,r:12,w:25}]},
+  {name:"Pull Day",rest:false,restSec:0,exercises:[{n:"Deadlift",s:3,r:5,w:100},{n:"Pull-ups",s:4,r:8,w:0},{n:"Barbell Row",s:3,r:10,w:60},{n:"Bicep Curl",s:3,r:12,w:20}]},
+  {name:"Leg Day",rest:false,restSec:0,exercises:[{n:"Back Squat",s:4,r:6,w:80},{n:"Romanian Deadlift",s:3,r:8,w:70},{n:"Leg Press",s:3,r:12,w:120},{n:"Calf Raise",s:4,r:15,w:40}]},
+  {name:"Rest Day",rest:true,restSec:0,exercises:[]},
+  {name:"Upper Body",rest:false,restSec:0,exercises:[{n:"Bench Press",s:4,r:8,w:60},{n:"Barbell Row",s:4,r:8,w:60},{n:"Overhead Press",s:3,r:10,w:40},{n:"Lat Pulldown",s:3,r:12,w:50}]},
+  {name:"Lower Body",rest:false,restSec:0,exercises:[{n:"Front Squat",s:4,r:8,w:60},{n:"Walking Lunge",s:3,r:12,w:24},{n:"Leg Curl",s:3,r:12,w:40},{n:"Calf Raise",s:4,r:15,w:40}]},
+  {name:"Rest Day",rest:true,restSec:0,exercises:[]}];
 const DEFAULTS=()=>({
   entries:[],water:{},weights:{},quick:[],
   goals:{kcal:2000,p:150,c:200,f:65,water:8},
@@ -947,6 +890,7 @@ state.settings.ui=Object.assign({icons:"filled",corners:"round",density:"cozy"},
 state.settings.meals=Object.assign(DEFAULTS().settings.meals,state.settings.meals||{});
 state.gym=Object.assign({schedule:DEFAULT_GYM_SCHED(),session:null,history:[],prefs:{rest:90,auto:true}},state.gym||{});
 if(!Array.isArray(state.gym.schedule)||state.gym.schedule.length!==7)state.gym.schedule=DEFAULT_GYM_SCHED();
+state.gym.schedule.forEach(d=>{if(typeof d.restSec!=="number")d.restSec=0;});
 state.gym.prefs=Object.assign({rest:90,auto:true},state.gym.prefs||{});
 state.chat=state.chat||[];state.weights=state.weights||{};
 if(!state.settings.vibe){const a=state.settings.accent,t=state.settings.theme;
@@ -1014,7 +958,6 @@ function toast(msg,action){
   if(action){const b=document.createElement("button");b.textContent=action.label;b.onclick=()=>{action.fn();kill();};t.appendChild(b);}
   $("#toasts").appendChild(t);setTimeout(kill,action?5200:3200);}
 
-/* ===== themes & UI style ===== */
 const VIBES=[
   ["matcha","Matcha","light","#B7E44A,#2FC178"],["citrus","Citrus","light","#FFCE5C,#FF8A3C"],
   ["berry","Berry","light","#FF9EBB,#F0507E"],["ocean","Ocean","light","#8FE3F2,#3E8EF7"],
@@ -1077,7 +1020,6 @@ async function ensureIcon(){
 $("#btnIconDl").onclick=()=>{const a=document.createElement("a");a.download="icon-180.png";a.href=makeIconURL(180);a.click();
   toast("Icon downloaded — place it next to this file 🎨");};
 
-/* ===== tabs ===== */
 function switchTab(name){
   haptic(6);document.body.dataset.tab=name;
   $$(".tb-item").forEach(b=>b.classList.toggle("on",b.dataset.tab===name));
@@ -1448,33 +1390,56 @@ function renderGym(){
   if(gymView==="history")renderHist();
   if(gymView==="schedule")renderSched();}
 
+function sessionRestSec(s){const r=+(s&&s.restSec)>0?+s.restSec:+state.gym.prefs.rest;return r>0?Math.round(r):0;}
+
+function startWorkout(day){
+  const old=state.gym.session;
+  if(old&&old.date!==todayStr()){
+    if(!confirm(`You still have an unfinished "${old.routine}" session from ${old.date}. Discard it and start today's workout?`))return;}
+  state.gym.session={date:todayStr(),routine:day.name,startedAt:Date.now(),restSec:+day.restSec||0,
+    ex:(day.exercises||[]).map(x=>({n:x.n,tS:x.s,tR:x.r,tW:x.w,sets:Array.from({length:x.s},()=>({done:false,w:x.w,r:x.r}))}))};
+  save();haptic(14);toast(`Workout started — ${esc(day.name)} 💪`);renderGymToday();}
+
 function renderGymToday(){
   const box=$("#gymToday");
-  const day=state.gym.schedule[dowIdx()]||{name:"Rest Day",rest:true,exercises:[]};
-  let s=state.gym.session;
-  if(!s||s.date!==todayStr()){
-    if(!day.rest){
-      state.gym.session={date:todayStr(),routine:day.name,startedAt:Date.now(),
-        ex:day.exercises.map(x=>({n:x.n,tS:x.s,tR:x.r,tW:x.w,
-          sets:Array.from({length:x.s},()=>({done:false,w:x.w,r:x.r}))}))};
-      save();s=state.gym.session;
-    }else s=null;}
-  if(!s){
+  const day=state.gym.schedule[dowIdx()]||{name:"Rest Day",rest:true,restSec:0,exercises:[]};
+  const s=state.gym.session;
+  if(s&&s.date===todayStr()){renderActiveSession(box,s);return;}
+  if(day.rest){
     box.innerHTML=`<div class="card"><div class="gym-rest-hero">
       <div class="big">🌙</div><h3 style="font-size:20px">Rest Day</h3>
       <p class="hint" style="margin:8px 0 14px">Recovery is where the growth happens. Hydrate, stretch, come back stronger.</p>
       <button class="btn ghost" id="btnEmptySess" style="width:auto;padding:12px 20px;margin:0 auto">Start an empty session anyway</button>
     </div></div>`;
     const be=$("#btnEmptySess");
-    if(be)be.onclick=()=>{
-      state.gym.session={date:todayStr(),routine:"Open Session",startedAt:Date.now(),ex:[]};
-      save();renderGymToday();toast("Session started 💪");};
+    if(be)be.onclick=()=>startWorkout({name:"Open Session",rest:false,restSec:0,exercises:[]});
     return;}
+  const totalSets=(day.exercises||[]).reduce((a,x)=>a+x.s,0);
+  const rest=+day.restSec>0?+day.restSec:+state.gym.prefs.rest;
+  const oldNote=(s&&s.date!==todayStr())?`<p class="hint" style="margin-top:10px">⚠ An unfinished session from ${s.date} will be replaced when you start.</p>`:"";
+  box.innerHTML=`<div class="card">
+    <span class="kicker">Today's plan · ${DAYS[dowIdx()]}</span>
+    <h3 style="font-family:Sora;font-weight:800;font-size:24px;margin-top:4px">${esc(day.name)}</h3>
+    <div class="chip-row" style="margin-top:10px">
+      <span class="chip">${(day.exercises||[]).length} exercises</span>
+      <span class="chip">${totalSets} sets</span>
+      <span class="chip chip-volt">rest ${rest}s / set</span>
+    </div>
+    <button class="btn primary" id="btnStartWorkout" style="margin-top:16px;font-size:16px;letter-spacing:.04em">▶ START WORKOUT</button>
+    ${oldNote}
+  </div>
+  <div class="card">
+    <div class="row" style="margin-bottom:8px"><h3>Exercises</h3><span class="hint">preview — timer starts when you do</span></div>
+    ${(day.exercises||[]).map(x=>`<div class="hd-row"><span>${esc(x.n)}</span><span class="muted">${x.s} × ${x.r} @ ${dispW(x.w)} ${unitLbl()}</span></div>`).join("")||'<div class="hint">No exercises — add some in Schedule.</div>'}
+  </div>`;
+  const bs=$("#btnStartWorkout");
+  if(bs)bs.onclick=()=>startWorkout(day);}
 
+function renderActiveSession(box,s){
   const totalSets=s.ex.reduce((a,x)=>a+x.sets.length,0);
   const doneSets=s.ex.reduce((a,x)=>a+x.sets.filter(y=>y.done).length,0);
   let html=`<div class="card">
-    <div class="row"><div><span class="kicker">Session · ${new Date().toLocaleDateString([],{weekday:"short",month:"short",day:"numeric"})}</span>
+    <div class="row"><div><span class="kicker">Session · ${new Date().toLocaleDateString([],{weekday:"short",month:"short",day:"numeric"})} · rest ${sessionRestSec(s)}s / set</span>
       <h3 style="margin-top:3px">${esc(s.routine)}</h3></div>
       <span id="gymElapsed" class="num" style="font-family:Sora;font-weight:800;font-size:22px">0:00</span></div>
     <div class="bar" style="margin-top:12px"><i id="gymProg" style="width:${totalSets?doneSets/totalSets*100:0}%;background:linear-gradient(90deg,var(--limeA),var(--limeB))"></i></div>
@@ -1539,7 +1504,8 @@ function renderGymToday(){
     const chk=row.querySelector(".gcheck");
     if(chk)chk.onclick=()=>{
       st.done=!st.done;save();haptic(st.done?14:6);renderGymToday();
-      if(st.done&&state.gym.prefs.auto&&(+state.gym.prefs.rest>0))startRest(+state.gym.prefs.rest);};});
+      const rs=sessionRestSec(s);
+      if(st.done&&state.gym.prefs.auto&&rs>0)startRest(rs);};});
   box.querySelectorAll("[data-addset]").forEach(b=>b.onclick=()=>{
     const x=s.ex[+b.dataset.addset];if(!x)return;
     x.sets.push({done:false,w:x.tW,r:x.tR});x.tS=x.sets.length;save();renderGymToday();});}
@@ -1609,14 +1575,17 @@ function renderSched(){
   state.gym.schedule.forEach((day,i)=>{
     const card=document.createElement("div");
     card.className="day-card"+(i===ti?" is-today":"");
-    const exSum=day.rest?"Rest day":`${day.exercises.length} exercises · ${day.exercises.reduce((a,x)=>a+x.s,0)} sets`;
+    const exSum=day.rest?"Rest day":`${day.exercises.length} exercises · ${day.exercises.reduce((a,x)=>a+x.s,0)} sets${day.restSec?" · rest "+day.restSec+"s":""}`;
     card.innerHTML=`<button class="day-row">
       <span class="day-badge ${i===ti?"today":""}">${DAYS[i]}</span>
       <span class="day-main"><b>${esc(day.name)}</b><small>${exSum}</small></span>
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="day-editor" hidden>
         <div class="field" style="margin:0"><label>Routine name</label><div class="iwrap"><input type="text" data-f="name" value="${esc(day.name)}"></div></div>
-        <label class="switch-row"><span class="switch"><input type="checkbox" data-f="rest" ${day.rest?"checked":""}><span class="tr"></span><span class="knob"></span></span> Rest day</label>
+        <div class="grid2">
+          <div class="field" style="margin:0"><label>Rest between sets (0 = default)</label><div class="iwrap"><input type="number" data-f="restSec" inputmode="numeric" class="has-unit" value="${day.restSec||""}" placeholder="auto"><span class="unit">sec</span></div></div>
+          <label class="switch-row" style="align-self:end;padding-bottom:12px"><span class="switch"><input type="checkbox" data-f="rest" ${day.rest?"checked":""}><span class="tr"></span><span class="knob"></span></span> Rest day</label>
+        </div>
         <div data-exlist style="display:grid;gap:8px"></div>
         <button class="btn ghost" data-addex style="padding:10px">＋ Add exercise</button>
         <div class="editor-actions">
@@ -1645,23 +1614,26 @@ function renderSched(){
         exlist.appendChild(ed);});}
     function refreshSum(){
       const sm=card.querySelector(".day-main small"),nm=card.querySelector(".day-main b");
-      if(sm)sm.textContent=day.rest?"Rest day":`${day.exercises.length} exercises · ${day.exercises.reduce((a,x)=>a+x.s,0)} sets`;
+      if(sm)sm.textContent=day.rest?"Rest day":`${day.exercises.length} exercises · ${day.exercises.reduce((a,x)=>a+x.s,0)} sets${day.restSec?" · rest "+day.restSec+"s":""}`;
       if(nm)nm.textContent=day.name;}
     buildEx();
     card.querySelector(".day-row").onclick=()=>{
       card.classList.toggle("open");editor.hidden=!card.classList.contains("open");haptic(6);};
     card.querySelector('[data-f="name"]').onchange=e=>{day.name=e.target.value;save();refreshSum();};
     card.querySelector('[data-f="rest"]').onchange=e=>{day.rest=e.target.checked;save();refreshSum();};
+    card.querySelector('[data-f="restSec"]').onchange=e=>{day.restSec=Math.max(0,+e.target.value||0);save();refreshSum();};
     card.querySelector("[data-addex]").onclick=()=>{
       day.exercises.push({n:"New Exercise",s:3,r:10,w:20});save();buildEx();refreshSum();};
     card.querySelector("[data-copybtn]").onclick=()=>{
       const j=+card.querySelector("[data-copy]").value;
       const src=state.gym.schedule[j];if(!src)return;
-      day.name=src.name;day.rest=src.rest;
+      day.name=src.name;day.rest=src.rest;day.restSec=src.restSec||0;
       day.exercises=JSON.parse(JSON.stringify(src.exercises||[]));
       save();buildEx();refreshSum();
       card.querySelector('[data-f="name"]').value=day.name;
-      card.querySelector('[data-f="rest"]').checked=day.rest;toast("Copied "+DAYS[j]);};
+      card.querySelector('[data-f="rest"]').checked=day.rest;
+      card.querySelector('[data-f="restSec"]').value=day.restSec||"";
+      toast("Copied "+DAYS[j]);};
     box.appendChild(card);});
   $("#prefRest").value=state.gym.prefs.rest;
   $("#prefAutoRest").checked=state.gym.prefs.auto!==false;}
@@ -1693,7 +1665,6 @@ function attachDrag(el,grab){
 attachDrag($("#sheet"),$("#sheetGrab"));attachDrag($("#sheetScan"),$("#scanGrab"));
 attachDrag($("#sheetDay"),$("#dayGrab"));attachDrag($("#sheetFinish"),$("#finishGrab"));
 
-/* ---- add/edit entry ---- */
 let whenMode="now",editingId=null;
 function setWhen(v){
   whenMode=v;$("#segWhen")._set(v);$("#whenPick").hidden=v==="now";
@@ -1753,7 +1724,6 @@ $("#btnAddEntry").onclick=()=>{
     if(inDaySheet)renderDaySheet(date);}
   clearAddForm();setWhen("now");closeSheetEl();};
 
-/* ---- browse day ---- */
 $("#btnDayBrowse").onclick=()=>openDaySheet(dstr(shift(new Date(),-1)));
 function openDaySheet(date){
   $("#dayPick").value=date||todayStr();
@@ -2105,6 +2075,7 @@ $("#importFile").onchange=e=>{
       state.settings.meals=Object.assign(DEFAULTS().settings.meals,state.settings.meals||{});
       state.gym=Object.assign({schedule:DEFAULT_GYM_SCHED(),session:null,history:[],prefs:{rest:90,auto:true}},state.gym||{});
       if(!Array.isArray(state.gym.schedule)||state.gym.schedule.length!==7)state.gym.schedule=DEFAULT_GYM_SCHED();
+      state.gym.schedule.forEach(d=>{if(typeof d.restSec!=="number")d.restSec=0;});
       state.weights=state.weights||{};
       save();applyVibe();applyUI();buildThemes();fillSettings();renderToday();renderCoachState();
       toast("Backup imported ✓");
