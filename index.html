@@ -8,15 +8,18 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Better You">
 <meta name="theme-color" content="#F2F0E8">
-<meta name="description" content="Better You — nutrition, AI food scanning, meal-prep planning and workout tracking, entirely on your device.">
+<meta name="description" content="Better You — nutrition, AI food scanning, meal-prep planning, workout tracking, and run tracking with GPS.">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="%23A9E24C"/><circle cx="32" cy="32" r="15" fill="none" stroke="%23122019" stroke-width="7" stroke-dasharray="70 25" stroke-linecap="round" transform="rotate(-90 32 32)"/></svg>'>
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22Better%20You%22%2C%22short_name%22%3A%22Better%20You%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%230A110C%22%2C%22theme_color%22%3A%22%230A110C%22%7D'>
-<title>Better You — food, macros & training</title>
+<title>Better You — food, macros, training & runs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Leaflet CSS for maps -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
+/* ===== Matcha (default) ===== */
 :root{--bg:#F2F0E8;--surface:#FFFFFF;--surface2:#F6F5ED;--pageBg:#E6E3D8;--ink:#122019;--muted:#67756B;
 --line:rgba(18,32,25,.10);--line2:rgba(18,32,25,.16);
 --limeA:#B7E44A;--limeB:#2FC178;--lime:#79C92F;--limeInk:#17321B;
@@ -429,6 +432,30 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
 @keyframes toastOut{to{opacity:0;transform:translateY(12px) scale(.94)}}
 :focus-visible{outline:2.5px solid var(--lime);outline-offset:2px;border-radius:6px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}}
+
+/* Run Tracking Styles */
+#runMap{height:300px;border-radius:var(--r-card);margin-bottom:14px;background:var(--surface2);border:1px solid var(--line)}
+.run-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.run-stat{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.run-stat b{display:block;font-family:"Sora";font-weight:800;font-size:20px;color:var(--limeB)}
+.run-stat span{font-size:9.5px;font-weight:800;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.run-controls{display:grid;gap:10px}
+.run-btn{padding:16px;border-radius:16px;font-weight:800;font-size:16px;border:0;cursor:pointer;transition:transform .2s var(--spring),box-shadow .2s}
+.run-btn:active{transform:scale(.96)}
+.run-btn.primary{background:linear-gradient(140deg,var(--limeA),var(--limeB));color:var(--limeInk);box-shadow:0 8px 20px -6px color-mix(in srgb,var(--limeB) 55%,transparent)}
+.run-btn.secondary{background:var(--surface2);border:1px solid var(--line);color:var(--ink)}
+.run-btn.danger{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad);border:1px solid color-mix(in srgb,var(--bad) 30%,transparent)}
+.run-timer{font-family:"Sora";font-weight:800;font-size:48px;text-align:center;margin:10px 0;color:var(--ink)}
+.run-status{font-size:12.5px;color:var(--muted);text-align:center;font-weight:700}
+.run-history-item{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+.run-history-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.run-history-date{font-weight:800;font-size:14px}
+.run-history-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:12px}
+.run-history-stat b{color:var(--limeB);font-weight:700}
+.leaflet-container{font-family:"Manrope",sans-serif}
+.permission-notice{background:var(--notice-bg);border:1px solid var(--notice-line);border-radius:14px;padding:14px;margin-bottom:14px}
+.permission-notice b{color:var(--notice-ink);font-size:13px;display:block;margin-bottom:4px}
+.permission-notice small{color:var(--notice-ink);font-size:11.5px;display:block;opacity:.8}
 </style>
 </head>
 <body data-tab="today">
@@ -445,11 +472,12 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
     </button>
   </header>
 
-  <div id="storageWarn" hidden>Preview mode — storage can’t persist here, so data resets on reload. Host this file to use Better You for real.</div>
+  <div id="storageWarn" hidden>Preview mode — storage can't persist here, so data resets on reload. Host this file to use Better You for real.</div>
 
   <main>
+    <!-- TODAY -->
     <section id="tab-today" class="tab active">
-      <button id="macroNotice">⚠️ <span>Some entries have unknown macros — tap to find &amp; fix them.</span></button>
+      <button id="macroNotice">️ <span>Some entries have unknown macros — tap to find &amp; fix them.</span></button>
       <div class="card in" id="hero">
         <div class="date-row"><span class="kicker">Today</span><span class="date" id="todayDate"></span></div>
         <div class="ring-wrap">
@@ -503,7 +531,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
       <div class="card" id="plannedCard" hidden>
         <div class="log-head"><h3>Planned</h3><span id="plannedTotal" class="num"></span></div>
-        <p class="hint" style="margin:-2px 0 4px">Pre-listed meals — they don’t count until you eat them or the time passes.</p>
+        <p class="hint" style="margin:-2px 0 4px">Pre-listed meals — they don't count until you eat them or the time passes.</p>
         <div id="plannedList"></div>
       </div>
       <div class="qsec" id="quickSec" hidden>
@@ -512,7 +540,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       <div id="quickRow"></div>
       <div class="card">
         <div class="log-head">
-          <h3>Today’s log</h3>
+          <h3>Today's log</h3>
           <div style="display:flex;align-items:center;gap:8px">
             <span id="logTotal" class="num">0 kcal</span>
             <button class="icon-only" id="btnDayBrowse" title="Browse another day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></button>
@@ -522,6 +550,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
+    <!-- ANALYTICS -->
     <section id="tab-analytics" class="tab">
       <div class="card in">
         <div class="row" style="margin-bottom:14px">
@@ -575,10 +604,11 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
+    <!-- COACH -->
     <section id="tab-coach" class="tab">
       <div class="card key-card in" id="coachSetup">
         <div class="row"><h3>Coach</h3><span class="kicker">powered by Groq</span></div>
-        <p class="key-note">Grounded in today’s numbers — and for branded foods, grounded in <b>live label data from Open Food Facts</b>. One free Groq key powers Coach and FoodScan, stored only in this browser. Get a key at <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a>.</p>
+        <p class="key-note">Grounded in today's numbers — and for branded foods, grounded in <b>live label data from Open Food Facts</b>. One free Groq key powers Coach and FoodScan, stored only in this browser. Get a key at <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a>.</p>
         <div class="field"><div class="iwrap"><input type="password" id="setupKey" placeholder="gsk_…" autocomplete="off"><span class="unit">key</span></div></div>
         <button class="btn primary" id="btnSetupSave">Save key &amp; connect</button>
       </div>
@@ -607,6 +637,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
+    <!-- GYM -->
     <section id="tab-gym" class="tab">
       <div class="card in" style="padding:10px 12px">
         <div class="seg" id="segGym"><div class="thumb"></div>
@@ -641,6 +672,41 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
+    <!-- RUNS -->
+    <section id="tab-runs" class="tab">
+      <div id="runActiveView" hidden>
+        <div class="card">
+          <div class="row" style="margin-bottom:10px">
+            <h3>Active Run</h3>
+            <span class="hint" id="runStatus">Ready to start</span>
+          </div>
+          <div id="runMap"></div>
+          <div class="run-timer" id="runTimer">00:00:00</div>
+          <div class="run-stats">
+            <div class="run-stat"><b id="runDistance">0.00</b><span>km</span></div>
+            <div class="run-stat"><b id="runPace">--:--</b><span>min/km</span></div>
+            <div class="run-stat"><b id="runSpeed">0.0</b><span>km/h</span></div>
+          </div>
+          <div class="run-controls">
+            <button class="run-btn primary" id="btnStartRun">▶ Start Run</button>
+            <button class="run-btn secondary" id="btnPauseRun" hidden>⏸ Pause</button>
+            <button class="run-btn danger" id="btnFinishRun" hidden>✓ Finish Run</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="runListView">
+        <div class="card">
+          <div class="row" style="margin-bottom:10px">
+            <h3>Run History</h3>
+            <span class="hint" id="runTotalStats">0 runs · 0 km</span>
+          </div>
+          <div id="runHistoryList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
     <section id="tab-settings" class="tab">
       <div class="acc">
         <div class="acc-item in open">
@@ -690,7 +756,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
             <div class="field"><label>Weight / gym units</label>
               <div class="seg" id="segUnits"><div class="thumb"></div><button data-v="kg">Kilograms</button><button data-v="lb">Pounds</button></div>
             </div>
-            <div class="field" style="margin-bottom:8px"><label>Meal schedule · groups Today’s log</label></div>
+            <div class="field" style="margin-bottom:8px"><label>Meal schedule · groups Today's log</label></div>
             <div class="grid3">
               <div class="field"><label style="letter-spacing:.02em;text-transform:none">Breakfast ends</label><div class="iwrap"><input type="time" id="mB"></div></div>
               <div class="field"><label style="letter-spacing:.02em;text-transform:none">Lunch ends</label><div class="iwrap"><input type="time" id="mL"></div></div>
@@ -711,7 +777,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
         <div class="acc-item in" style="animation-delay:.2s">
           <button class="acc-head"><span class="acc-ico">🔎</span><span class="acc-tt"><b>Food search &amp; scan</b><small>how accuracy works</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
-            <p class="hint" style="margin:0">Every food question checks <b>Open Food Facts</b> first — real label macros beat AI guesses (📦 badge). FoodScan cross-checks photos the same way. Searches are cached for consistent answers.</p>
+            <p class="hint" style="margin:0">Every food question checks <b>Open Food Facts</b> first — real label macros beat AI guesses ( badge). FoodScan cross-checks photos the same way. Searches are cached for consistent answers.</p>
           </div></div></div>
         </div>
         <div class="acc-item in" style="animation-delay:.25s">
@@ -730,7 +796,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
           </div></div></div>
         </div>
       </div>
-      <p class="about">Better You 1.0.2 — food · scans · training · all on-device 🌱</p>
+      <p class="about">Better You 1.0.3 — food · scans · training · runs · all on-device 🌱</p>
     </section>
   </main>
 
@@ -753,108 +819,15 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
     <button class="tb-item" data-tab="analytics" data-ico="analytics"><span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3.5" y="12" width="4.4" height="8.5" rx="1.6"/><rect x="9.8" y="4.5" width="4.4" height="16" rx="1.6"/><rect x="16.1" y="8.5" width="4.4" height="12" rx="1.6"/></svg></span><span>Stats</span></button>
     <button class="tb-item" data-tab="coach" data-ico="coach"><span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3zM19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z"/></svg></span><span>Coach</span></button>
     <button class="tb-item" data-tab="gym" data-ico="gym"><span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="1.6" y="9.3" width="2.8" height="5.4" rx="1.3"/><rect x="4.9" y="7.2" width="3.2" height="9.6" rx="1.5"/><rect x="15.9" y="7.2" width="3.2" height="9.6" rx="1.5"/><rect x="19.6" y="9.3" width="2.8" height="5.4" rx="1.3"/><rect x="8.1" y="10.6" width="7.8" height="2.8" rx="1.2"/></svg></span><span>Gym</span></button>
+    <button class="tb-item" data-tab="runs" data-ico="runs"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2a4 4 0 0 1 4 4c0 2.2-1.8 4-4 4S8 8.2 8 6a4 4 0 0 1 4-4z"/><path d="M12 10v4"/><path d="M8 22h8"/><path d="M12 14l-3 8h6l-3-8z"/></svg></span><span>Runs</span></button>
     <button class="tb-item" data-tab="settings" data-ico="settings"><span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="6.7" width="18" height="2.6" rx="1.3" opacity=".38"/><rect x="3" y="14.7" width="18" height="2.6" rx="1.3" opacity=".38"/><circle cx="15.5" cy="8" r="3"/><circle cx="8.5" cy="16" r="3"/></svg></span><span>Settings</span></button>
   </nav>
 </div>
 
 <div id="backdrop"></div>
 
-<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Add entry">
-  <div class="grab" id="sheetGrab"></div>
-  <div class="sheet-head"><div><h2 id="addTitle">Add entry</h2><span class="hint" id="addSub">review, tweak or schedule — then confirm</span></div><button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-  <div id="offBlock">
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input type="search" id="offSearch" placeholder="Search packaged foods… (Open Food Facts)" autocomplete="off">
-    </div>
-    <div id="offResults"></div>
-    <div class="or">or enter manually</div>
-  </div>
-  <div class="field"><label>Name</label><div class="iwrap"><input type="text" id="fName" placeholder="e.g. Chicken rice bowl"></div></div>
-  <div class="field">
-    <label>When</label>
-    <div class="seg" id="segWhen"><div class="thumb"></div><button class="on" data-v="now">Now</button><button data-v="later">Pick date &amp; time</button></div>
-    <div id="whenPick" hidden style="margin-top:10px">
-      <div class="grid2">
-        <div class="iwrap"><input type="date" id="fDate"></div>
-        <div class="iwrap"><input type="time" id="fTime"></div>
-      </div>
-      <div class="hint" style="margin-top:6px">Pick a past date to log meals you already ate, or a future one to meal-prep.</div>
-    </div>
-  </div>
-  <div class="grid2">
-    <div class="field"><label>Serving size</label><div class="iwrap"><input type="number" id="fGrams" inputmode="decimal" class="has-unit" placeholder="100"><span class="unit">g</span></div></div>
-    <div class="field"><label>Calories</label><div class="iwrap"><input type="number" id="fKcal" inputmode="decimal" class="has-unit" placeholder="0"><span class="unit">kcal</span></div></div>
-  </div>
-  <div class="grid3">
-    <div class="field"><label>Protein</label><div class="iwrap"><input type="number" id="fP" inputmode="decimal" class="has-unit" placeholder="0"><span class="unit">g</span></div></div>
-    <div class="field"><label>Carbs</label><div class="iwrap"><input type="number" id="fC" inputmode="decimal" class="has-unit" placeholder="0"><span class="unit">g</span></div></div>
-    <div class="field"><label>Fat</label><div class="iwrap"><input type="number" id="fF" inputmode="decimal" class="has-unit" placeholder="0"><span class="unit">g</span></div></div>
-  </div>
-  <div class="row" style="margin:4px 0 16px">
-    <div><b style="font-size:13.5px">Save to Quick Add</b><div class="hint">Adds a one-tap chip on Today</div></div>
-    <label class="switch"><input type="checkbox" id="qSwitch"><span class="tr"></span><span class="knob"></span></label>
-  </div>
-  <button class="btn primary" id="btnAddEntry">Add entry</button>
-</div>
-
-<div class="sheet" id="sheetScan" role="dialog" aria-modal="true" aria-label="FoodScan">
-  <div class="grab" id="scanGrab"></div>
-  <div class="sheet-head">
-    <div><h2>FoodScan</h2><span class="hint">photo → macros · Groq vision + label cross-check</span></div>
-    <button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </div>
-  <div class="scan-preview" id="scanPrev" hidden><img id="scanImg" alt="Your meal"><div class="scanline"></div></div>
-  <div id="scanBusy" hidden><div class="spinner"></div><div class="off-status" id="scanStatus">Identifying your meal…</div></div>
-  <div id="scanKeyBox" hidden>
-    <p class="off-status">FoodScan uses your free Groq key — same one as Coach.</p>
-    <div class="field"><div class="iwrap"><input type="password" id="scanKey" placeholder="gsk_…" autocomplete="off"><span class="unit">key</span></div></div>
-    <button class="btn primary" id="btnScanKeySave">Save key &amp; scan</button>
-  </div>
-  <div id="scanError" hidden><div class="off-status" id="scanErrMsg"></div><button class="btn ghost" id="btnScanRetry">Try again</button></div>
-  <div id="scanResult" hidden>
-    <div class="scan-src" id="scanSrc" hidden></div>
-    <div class="row" style="margin-bottom:10px"><span class="kicker">Detected</span><span id="sConf" class="conf">estimate</span></div>
-    <div class="field"><label>Food</label><div class="iwrap"><input type="text" id="sName"></div></div>
-    <p id="sNotes"></p>
-    <div class="src-note" id="sAiGuess" hidden></div>
-    <div class="grid2">
-      <div class="field"><label>Portion</label><div class="iwrap"><input type="number" id="sGrams" inputmode="decimal" class="has-unit"><span class="unit">g</span></div></div>
-      <div class="field"><label>Calories</label><div class="iwrap"><input type="number" id="sKcal" inputmode="decimal" class="has-unit"><span class="unit">kcal</span></div></div>
-    </div>
-    <div class="grid3">
-      <div class="field"><label>Protein</label><div class="iwrap"><input type="number" id="sP" inputmode="decimal" class="has-unit"><span class="unit">g</span></div></div>
-      <div class="field"><label>Carbs</label><div class="iwrap"><input type="number" id="sC" inputmode="decimal" class="has-unit"><span class="unit">g</span></div></div>
-      <div class="field"><label>Fat</label><div class="iwrap"><input type="number" id="sF" inputmode="decimal" class="has-unit"><span class="unit">g</span></div></div>
-    </div>
-    <div class="btn-row"><button class="btn ghost" id="btnScanAgain">↻ Rescan</button><button class="btn primary" id="btnScanAdd">Add to log</button></div>
-  </div>
-  <button class="linkish" id="btnScanChange" hidden>Use a different photo…</button>
-</div>
-
-<div class="sheet" id="sheetDay" role="dialog" aria-modal="true" aria-label="Browse a day">
-  <div class="grab" id="dayGrab"></div>
-  <div class="sheet-head"><div><h2 id="dayTitle">Browse a day</h2><span class="hint">log past meals, edit or fix anything</span></div><button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-  <div class="field"><div class="iwrap"><input type="date" id="dayPick"></div></div>
-  <div class="day-totals" id="dayTotals"></div>
-  <div id="dayList"></div>
-  <button class="btn primary" id="btnDayAdd" style="margin-top:12px">＋ Add meal to this day</button>
-</div>
-
-<div class="sheet" id="sheetFinish" role="dialog" aria-modal="true" aria-label="Finish workout">
-  <div class="grab" id="finishGrab"></div>
-  <div class="sheet-head"><div><h2>Finish workout?</h2><span class="hint">session summary</span></div><button class="x-btn" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-  <div class="fstats">
-    <div class="fstat"><b id="fDur">0:00</b><span>Duration</span></div>
-    <div class="fstat"><b id="fSets">0</b><span>Sets done</span></div>
-    <div class="fstat"><b id="fVol">0</b><span>Volume (kg)</span></div>
-    <div class="fstat"><b id="fEx">0</b><span>Exercises</span></div>
-  </div>
-  <div class="fwarn" id="fWarn" hidden>Some sets are unfinished — they won’t count toward volume.</div>
-  <div class="btn-row"><button class="btn ghost" data-close>Keep going</button><button class="btn primary" id="btnSaveWorkout">Save workout</button></div>
-</div>
-
-<div id="toasts"></div>
+<!-- Leaflet JS for maps -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
 "use strict";
@@ -877,7 +850,7 @@ const DEFAULT_GYM_SCHED=()=>[
   {name:"Lower Body",rest:false,restSec:0,exercises:[{n:"Front Squat",s:4,r:8,w:60},{n:"Walking Lunge",s:3,r:12,w:24},{n:"Leg Curl",s:3,r:12,w:40},{n:"Calf Raise",s:4,r:15,w:40}]},
   {name:"Rest Day",rest:true,restSec:0,exercises:[]}];
 const DEFAULTS=()=>({
-  entries:[],water:{},weights:{},quick:[],
+  entries:[],water:{},weights:{},quick:[],runs:[],
   goals:{kcal:2000,p:150,c:200,f:65,water:8},
   settings:{vibe:"matcha",key:"",model:"",scanModel:"",units:"kg",haptics:true,anim:true,
     ui:{icons:"filled",corners:"round",density:"cozy"},meals:{b:"10:30",l:"15:00",d:"20:30"}},
@@ -892,6 +865,7 @@ state.gym=Object.assign({schedule:DEFAULT_GYM_SCHED(),session:null,history:[],pr
 if(!Array.isArray(state.gym.schedule)||state.gym.schedule.length!==7)state.gym.schedule=DEFAULT_GYM_SCHED();
 state.gym.schedule.forEach(d=>{if(typeof d.restSec!=="number")d.restSec=0;});
 state.gym.prefs=Object.assign({rest:90,auto:true},state.gym.prefs||{});
+state.runs=state.runs||[];
 state.chat=state.chat||[];state.weights=state.weights||{};
 if(!state.settings.vibe){const a=state.settings.accent,t=state.settings.theme;
   state.settings.vibe=(a&&["citrus","berry","ocean"].includes(a))?a:(t==="dark"?"midnight":"matcha");}
@@ -995,12 +969,14 @@ const ICO={
     analytics:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3.5" y="12" width="4.4" height="8.5" rx="1.6"/><rect x="9.8" y="4.5" width="4.4" height="16" rx="1.6"/><rect x="16.1" y="8.5" width="4.4" height="12" rx="1.6"/></svg>',
     coach:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3zM19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z"/></svg>',
     gym:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="1.6" y="9.3" width="2.8" height="5.4" rx="1.3"/><rect x="4.9" y="7.2" width="3.2" height="9.6" rx="1.5"/><rect x="15.9" y="7.2" width="3.2" height="9.6" rx="1.5"/><rect x="19.6" y="9.3" width="2.8" height="5.4" rx="1.3"/><rect x="8.1" y="10.6" width="7.8" height="2.8" rx="1.2"/></svg>',
+    runs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2a4 4 0 0 1 4 4c0 2.2-1.8 4-4 4S8 8.2 8 6a4 4 0 0 1 4-4z"/><path d="M12 10v4"/><path d="M8 22h8"/><path d="M12 14l-3 8h6l-3-8z"/></svg>',
     settings:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="6.7" width="18" height="2.6" rx="1.3" opacity=".38"/><rect x="3" y="14.7" width="18" height="2.6" rx="1.3" opacity=".38"/><circle cx="15.5" cy="8" r="3"/><circle cx="8.5" cy="16" r="3"/></svg>'},
   outline:{
     today:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1.2 3.2-1.5 4.8-1.5 7.4a3 3 0 0 0 6 .2c.8 1.1 1.3 2.3 1.3 3.9a5.8 5.8 0 1 1-11.6 0c0-4.6 4.4-6.6 5.8-11.5z"/></svg>',
     analytics:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"/></svg>',
     coach:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 4l1.7 4.6L18.3 10l-4.6 1.7L12 16.3l-1.7-4.6L5.7 10l4.6-1.7L12 4zM18.8 15.2l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg>',
     gym:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.3 9.2v5.6M20.7 9.2v5.6M6.5 12h11"/></svg>',
+    runs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2a4 4 0 0 1 4 4c0 2.2-1.8 4-4 4S8 8.2 8 6a4 4 0 0 1 4-4z"/><path d="M12 10v4"/><path d="M8 22h8"/><path d="M12 14l-3 8h6l-3-8z"/></svg>',
     settings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M4 8h9M17.5 8H20M4 16h2.5M11 16h9"/><circle cx="15.3" cy="8" r="2.3"/><circle cx="8.7" cy="16" r="2.3"/></svg>'}};
 function renderTabIcons(){
   const set=ICO[(state.settings.ui&&state.settings.ui.icons)]||ICO.filled;
@@ -1026,6 +1002,7 @@ function switchTab(name){
   $$(".tab").forEach(s=>s.classList.toggle("active",s.id==="tab-"+name));
   if(name==="analytics")renderAnalytics(true);
   if(name==="gym")renderGym();
+  if(name==="runs")initRunTab();
   window.scrollTo({top:0,behavior:RM?"auto":"smooth"});}
 $$(".tb-item").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
 function initSeg(el,cb){
@@ -1053,7 +1030,7 @@ function renderRing(){
   tween($("#msLeft"),Math.abs(left),900,v=>(over?"+":"")+fmt(v));
   const zone=$("#ringZone");
   if(over){zone.textContent="Over goal — ease off";zone.className="zone z-over";}
-  else if(eaten>=g*0.9){zone.textContent="In the zone 🎯";zone.className="zone z-in";}
+  else if(eaten>=g*0.9){zone.textContent="In the zone ";zone.className="zone z-in";}
   else{zone.textContent=`${fmt(g*0.9-eaten)} kcal to the zone`;zone.className="zone z-under";}}
 
 const FITS=[
@@ -1145,11 +1122,11 @@ function renderPlanned(){
     div.querySelector(".eatnow").onclick=()=>{
       const before=dayTotals(todayStr());
       e.date=todayStr();e.time=nowTime();save();haptic(12);renderToday();
-      toast(`Logged “${esc(e.name)}” 🍽️`);celebrate(before,dayTotals(todayStr()));};
+      toast(`Logged "${esc(e.name)}" 🍽️`);celebrate(before,dayTotals(todayStr()));};
     div.querySelector(".editb").onclick=()=>openEdit(e);
     div.querySelector(".del").onclick=()=>{
       haptic(10);const idx=state.entries.indexOf(e);state.entries.splice(idx,1);save();renderToday();
-      toast(`Removed “${esc(e.name)}”`,{label:"Undo",fn:()=>{state.entries.splice(idx,0,e);save();renderToday();}});};
+      toast(`Removed "${esc(e.name)}"`,{label:"Undo",fn:()=>{state.entries.splice(idx,0,e);save();renderToday();}});};
     list.appendChild(div);});}
 
 let managingQ=false;
@@ -1191,7 +1168,7 @@ function entryRow(e){
   div.querySelector(".editb").onclick=()=>openEdit(e);
   div.querySelector(".del").onclick=()=>{
     haptic(10);const idx=state.entries.indexOf(e);state.entries.splice(idx,1);save();renderToday();
-    toast(`Removed “${esc(e.name)}”`,{label:"Undo",fn:()=>{state.entries.splice(idx,0,e);save();renderToday();}});};
+    toast(`Removed "${esc(e.name)}"`,{label:"Undo",fn:()=>{state.entries.splice(idx,0,e);save();renderToday();}});};
   return div;}
 
 function renderLog(){
@@ -1398,7 +1375,7 @@ function startWorkout(day){
     if(!confirm(`You still have an unfinished "${old.routine}" session from ${old.date}. Discard it and start today's workout?`))return;}
   state.gym.session={date:todayStr(),routine:day.name,startedAt:Date.now(),restSec:+day.restSec||0,
     ex:(day.exercises||[]).map(x=>({n:x.n,tS:x.s,tR:x.r,tW:x.w,sets:Array.from({length:x.s},()=>({done:false,w:x.w,r:x.r}))}))};
-  save();haptic(14);toast(`Workout started — ${esc(day.name)} 💪`);renderGymToday();}
+  save();haptic(14);toast(`Workout started — ${esc(day.name)} `);renderGymToday();}
 
 function renderGymToday(){
   const box=$("#gymToday");
@@ -1548,7 +1525,7 @@ function renderHist(){
   $("#histCount").textContent=wk.length;
   $("#histVol").textContent=fmt(wk.reduce((a,x)=>a+(x.vol||0),0));
   $("#histSets").textContent=wk.reduce((a,x)=>a+(x.sets||0),0);
-  if(!h.length){list.innerHTML=`<div class="card"><div class="empty"><b>No workouts yet</b><small>Finish your first session and it’ll show up here.</small></div></div>`;return;}
+  if(!h.length){list.innerHTML=`<div class="card"><div class="empty"><b>No workouts yet</b><small>Finish your first session and it'll show up here.</small></div></div>`;return;}
   list.innerHTML="";
   h.forEach(w=>{
     const d=new Date(w.date+"T12:00");
@@ -1646,6 +1623,202 @@ setInterval(()=>{
   if(restUntil&&Date.now()>=restUntil){restUntil=0;updRestBar();haptic(30);toast("Rest over — go! 🔥");}
 },500);
 
+/* ============ RUN TRACKING ============ */
+let runMap=null,runWatchId=null,runActive=false,runPaused=false,runStartTime=null,runPauseTime=null,runPoints=[],runDistance=0,runTimerInterval=null;
+
+function initRunTab(){
+  if(!runMap){
+    runMap=L.map('runMap',{zoomControl:false}).setView([0,0],15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      attribution:'© OpenStreetMap contributors',
+      maxZoom:19
+    }).addTo(runMap);
+    L.control.zoom({position:'bottomright'}).addTo(runMap);
+  }
+  renderRunHistory();
+  setTimeout(()=>{if(runMap)runMap.invalidateSize();},100);}
+
+function formatPace(minPerKm){
+  if(!isFinite(minPerKm)||minPerKm<=0)return"--:--";
+  const min=Math.floor(minPerKm);
+  const sec=Math.floor((minPerKm-min)*60);
+  return `${min}:${pad(sec)}`;}
+
+function calculateDistance(points){
+  if(points.length<2)return 0;
+  let dist=0;
+  for(let i=1;i<points.length;i++){
+    dist+=points[i-1].distanceTo(points[i]);}
+  return dist/1000;}
+
+function updateRunStats(){
+  if(!runActive)return;
+  const elapsed=(Date.now()-runStartTime)/1000;
+  const pace=elapsed/60/runDistance;
+  const speed=runDistance/(elapsed/3600);
+  
+  $("#runDistance").textContent=runDistance.toFixed(2);
+  $("#runPace").textContent=formatPace(pace);
+  $("#runSpeed").textContent=isFinite(speed)?speed.toFixed(1):"0.0";
+}
+
+function startRun(){
+  if(!navigator.geolocation){
+    toast("Geolocation is not supported by your browser");
+    return;}
+  
+  runActive=true;
+  runPaused=false;
+  runStartTime=Date.now();
+  runPoints=[];
+  runDistance=0;
+  
+  $("#runActiveView").hidden=false;
+  $("#runListView").hidden=true;
+  $("#btnStartRun").hidden=true;
+  $("#btnPauseRun").hidden=false;
+  $("#btnFinishRun").hidden=false;
+  $("#runStatus").textContent="Tracking...";
+  
+  runWatchId=navigator.geolocation.watchPosition(
+    pos=>{
+      const latlng=L.latLng(pos.coords.latitude,pos.coords.longitude);
+      runPoints.push(latlng);
+      runDistance=calculateDistance(runPoints);
+      updateRunStats();
+      
+      if(runPoints.length===1){
+        runMap.setView(latlng,16);
+        L.marker(latlng).addTo(runMap);}
+      else{
+        L.polyline(runPoints,{color:var(--limeB),weight:4}).addTo(runMap);
+        runMap.fitBounds(L.latLngBounds(runPoints),{padding:[50,50]});}
+    },
+    err=>{
+      console.error("GPS Error:",err);
+      toast("GPS error: "+err.message);
+    },
+    {enableHighAccuracy:true,timeout:10000,maximumAge:0}
+  );
+  
+  runTimerInterval=setInterval(()=>{
+    if(!runPaused){
+      const elapsed=Date.now()-runStartTime;
+      const h=Math.floor(elapsed/3600000);
+      const m=Math.floor((elapsed%3600000)/60000);
+      const s=Math.floor((elapsed%60000)/1000);
+      $("#runTimer").textContent=`${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+  },1000);
+  
+  haptic(20);
+  toast("Run started — GPS tracking active ");}
+
+function pauseRun(){
+  runPaused=!runPaused;
+  if(runPaused){
+    $("#btnPauseRun").textContent="▶ Resume";
+    $("#runStatus").textContent="Paused";
+    if(runTimerInterval)clearInterval(runTimerInterval);
+  }else{
+    $("#btnPauseRun").textContent="⏸ Pause";
+    $("#runStatus").textContent="Tracking...";
+    runTimerInterval=setInterval(()=>{
+      if(!runPaused){
+        const elapsed=Date.now()-runStartTime;
+        const h=Math.floor(elapsed/3600000);
+        const m=Math.floor((elapsed%3600000)/60000);
+        const s=Math.floor((elapsed%60000)/1000);
+        $("#runTimer").textContent=`${pad(h)}:${pad(m)}:${pad(s)}`;
+      }
+    },1000);
+  }
+  haptic(10);}
+
+function finishRun(){
+  if(runWatchId){
+    navigator.geolocation.clearWatch(runWatchId);
+    runWatchId=null;}
+  if(runTimerInterval){
+    clearInterval(runTimerInterval);
+    runTimerInterval=null;}
+  
+  const duration=(Date.now()-runStartTime)/1000;
+  const pace=(duration/60)/runDistance;
+  const speed=runDistance/(duration/3600);
+  
+  const runData={
+    id:uid(),
+    date:todayStr(),
+    time:nowTime(),
+    duration:Math.round(duration),
+    distance:runDistance,
+    pace:pace,
+    speed:speed,
+    points:runPoints.map(p=>({lat:p.lat,lng:p.lng}))
+  };
+  
+  state.runs.unshift(runData);
+  save();
+  
+  runActive=false;
+  runPaused=false;
+  runPoints=[];
+  runDistance=0;
+  
+  $("#runActiveView").hidden=true;
+  $("#runListView").hidden=false;
+  $("#btnStartRun").hidden=false;
+  $("#btnPauseRun").hidden=true;
+  $("#btnFinishRun").hidden=true;
+  $("#runStatus").textContent="Ready to start";
+  $("#runTimer").textContent="00:00:00";
+  $("#runDistance").textContent="0.00";
+  $("#runPace").textContent="--:--";
+  $("#runSpeed").textContent="0.0";
+  
+  if(runMap){
+    runMap.eachLayer(layer=>{
+      if(layer instanceof L.Marker||layer instanceof L.Polyline){
+        runMap.removeLayer(layer);}});}
+  
+  renderRunHistory();
+  haptic(20);
+  toast(`Run saved: ${runData.distance.toFixed(2)} km in ${fmtClock(duration)}`);}
+
+function renderRunHistory(){
+  const list=$("#runHistoryList");
+  const totalRuns=state.runs.length;
+  const totalDist=state.runs.reduce((sum,r)=>sum+r.distance,0);
+  
+  $("#runTotalStats").textContent=`${totalRuns} runs · ${totalDist.toFixed(1)} km`;
+  
+  if(!state.runs.length){
+    list.innerHTML=`<div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a4 4 0 0 1 4 4c0 2.2-1.8 4-4 4S8 8.2 8 6a4 4 0 0 1 4-4z"/><path d="M12 10v4"/><path d="M8 22h8"/><path d="M12 14l-3 8h6l-3-8z"/></svg>
+      <b>No runs yet</b><small>Start your first run to see it here</small></div>`;
+    return;}
+  
+  list.innerHTML="";
+  state.runs.forEach(run=>{
+    const div=document.createElement("div");
+    div.className="run-history-item";
+    const date=new Date(run.date+"T"+run.time);
+    div.innerHTML=`
+      <div class="run-history-header">
+        <div class="run-history-date">${date.toLocaleDateString([],{weekday:"short",month:"short",day:"numeric"})} · ${date.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}</div>
+      </div>
+      <div class="run-history-stats">
+        <div class="run-history-stat"><b>${run.distance.toFixed(2)}</b> km</div>
+        <div class="run-history-stat"><b>${fmtClock(run.duration)}</b></div>
+        <div class="run-history-stat"><b>${formatPace(run.pace)}</b> /km</div>
+      </div>`;
+    list.appendChild(div);});}
+
+$("#btnStartRun").onclick=startRun;
+$("#btnPauseRun").onclick=pauseRun;
+$("#btnFinishRun").onclick=finishRun;
+
 /* ============ SHEETS ============ */
 const backdrop=$("#backdrop");
 let activeSheet=null;
@@ -1703,8 +1876,8 @@ function addEntry(data){
   const entry=Object.assign({id:uid(),date:todayStr(),time:nowTime()},data);
   state.entries.push(entry);save();renderToday();
   if(document.body.dataset.tab==="analytics")renderAnalytics(false);
-  if(isPlanned(entry))toast(`Planned “${esc(entry.name)}” · ${whenLabel(entry)} 🗓️`);
-  else{toast(`Added “${esc(entry.name)}” · ${entry.kcal!=null?fmt(entry.kcal):"?"} kcal`);
+  if(isPlanned(entry))toast(`Planned "${esc(entry.name)}" · ${whenLabel(entry)} 🗓️`);
+  else{toast(`Added "${esc(entry.name)}" · ${entry.kcal!=null?fmt(entry.kcal):"?"} kcal`);
     celebrate(before,dayTotals(todayStr()));}}
 $("#btnAddEntry").onclick=()=>{
   const name=$("#fName").value.trim()||"Untitled";
@@ -1715,7 +1888,7 @@ $("#btnAddEntry").onclick=()=>{
   if(editingId){
     const e=state.entries.find(x=>x.id===editingId);
     if(e){Object.assign(e,vals,{date,time});save();renderToday();
-      toast(`Updated “${esc(name)}” ✓`);if(inDaySheet)renderDaySheet(date);}
+      toast(`Updated "${esc(name)}" ✓`);if(inDaySheet)renderDaySheet(date);}
     editingId=null;
   }else{
     if($("#qSwitch").checked&&!state.quick.some(q=>q.name===name))
@@ -1811,7 +1984,7 @@ async function searchOFFUI(q){
   const box=$("#offResults");box.innerHTML='<div class="spinner"></div>';
   try{
     const products=await offSearch(q);
-    if(!products.length){box.innerHTML='<div class="off-status">No matches — try entering it manually below 👇</div>';return;}
+    if(!products.length){box.innerHTML='<div class="off-status">No matches — try entering it manually below </div>';return;}
     box.innerHTML="";
     products.forEach(p=>{
       const n=p.nutriments||{};
@@ -1958,7 +2131,7 @@ function renderCoachState(){
   $("#coachChat").hidden=!coachReady();
   if(coachReady()){
     $("#setupKey").value=state.settings.key;
-    if(!state.chat.length)coachMsg("coach","Hey! I’m Coach — grounded in today’s numbers (including planned meals and workouts), and for branded foods I pull real label data from Open Food Facts (📦 badge). What are we eating? 🥗");}}
+    if(!state.chat.length)coachMsg("coach","Hey! I'm Coach — grounded in today's numbers (including planned meals and workouts), and for branded foods I pull real label data from Open Food Facts (📦 badge). What are we eating? 🥗");}}
 $("#btnSetupSave").onclick=async()=>{
   const k=$("#setupKey").value.trim();
   if(!k){toast("Paste your Groq API key first");return;}
@@ -1979,7 +2152,7 @@ function coachMsg(role,text,est,facts){
   div.appendChild(document.createTextNode(text));
   if(est){
     const b=document.createElement("button");b.className="est-add";
-    b.innerHTML=`＋ Log “${esc(est.name)}” · ${fmt(est.kcal)} kcal`;
+    b.innerHTML=`＋ Log "${esc(est.name)}" · ${fmt(est.kcal)} kcal`;
     b.onclick=()=>{openPrefill({name:est.name,grams:est.grams,kcal:est.kcal,p:est.protein,c:est.carbs,f:est.fat});};
     div.appendChild(document.createElement("br"));div.appendChild(b);}
   $("#chatScroll").appendChild(div);$("#chatScroll").scrollTop=1e6;return div;}
@@ -2031,7 +2204,7 @@ async function coachSend(text){
     state.chat.push({role:"assistant",content:raw});
     if(state.chat.length>20)state.chat=state.chat.slice(-20);save();
   }catch(err){typing.remove();
-    coachMsg("coach","⚠️ Couldn’t reach Groq: "+err.message+"\nCheck your API key in Settings → AI.");}}
+    coachMsg("coach","⚠️ Couldn't reach Groq: "+err.message+"\nCheck your API key in Settings → AI.");}}
 $("#btnSend").onclick=()=>{const v=$("#chatInput").value;$("#chatInput").value="";coachSend(v);};
 $("#chatInput").addEventListener("keydown",e=>{if(e.key==="Enter"){const v=e.target.value;e.target.value="";coachSend(v);}});
 $$("#coachChips .chipq").forEach(c=>c.onclick=()=>coachSend(c.textContent));
@@ -2076,13 +2249,14 @@ $("#importFile").onchange=e=>{
       state.gym=Object.assign({schedule:DEFAULT_GYM_SCHED(),session:null,history:[],prefs:{rest:90,auto:true}},state.gym||{});
       if(!Array.isArray(state.gym.schedule)||state.gym.schedule.length!==7)state.gym.schedule=DEFAULT_GYM_SCHED();
       state.gym.schedule.forEach(d=>{if(typeof d.restSec!=="number")d.restSec=0;});
+      state.runs=state.runs||[];
       state.weights=state.weights||{};
       save();applyVibe();applyUI();buildThemes();fillSettings();renderToday();renderCoachState();
       toast("Backup imported ✓");
-    }catch(err){toast("That file doesn’t look like a Better You backup");}};
+    }catch(err){toast("That file doesn't look like a Better You backup");}};
   rd.readAsText(f);e.target.value="";};
 $("#btnErase").onclick=()=>{
-  if(!confirm("Erase all meals, plans, workouts, water and weight? Settings & AI key are kept."))return;
+  if(!confirm("Erase all meals, plans, workouts, runs, water and weight? Settings & AI key are kept."))return;
   const keep=state.settings;
   state=DEFAULTS();state.settings=keep;save();
   fillSettings();renderToday();renderCoachState();toast("All data erased");};
@@ -2096,7 +2270,7 @@ const POOL=[
   ["Cottage cheese & fruit",220,210,24,20,3],["Apple & almond butter",120,250,6,26,14],["Protein bar",60,210,20,22,7],
   ["Quinoa salad",320,440,16,52,18],["Shrimp tacos",300,480,30,46,18],["Smoothie bowl",340,390,14,64,8]];
 function loadDemo(){
-  state.entries=[];state.water={};state.weights={};state.quick=[];state.gym.history=[];state.gym.session=null;
+  state.entries=[];state.water={};state.weights={};state.quick=[];state.gym.history=[];state.gym.session=null;state.runs=[];
   let seed=42;const rnd=()=>(seed=(seed*1664525+1013904223)>>>0)/4294967296;
   const meals=[["08:10"],["12:40"],["15:30"],["19:30"]];
   for(let i=29;i>=0;i--){
@@ -2129,13 +2303,17 @@ function loadDemo(){
       ex:[{n:"Back Squat",sets:[{w:80,r:6},{w:80,r:6},{w:80,r:6},{w:85,r:5}]},
           {n:"Leg Press",sets:[{w:120,r:12},{w:120,r:12},{w:120,r:10}]},
           {n:"Calf Raise",sets:[{w:40,r:15},{w:40,r:15},{w:40,r:15},{w:40,r:15}]}]}];
+  state.runs=[
+    {id:uid(),date:dstr(shift(new Date(),-1)),time:"07:30",duration:1800,distance:5.2,pace:5.77,speed:10.4,points:[]},
+    {id:uid(),date:dstr(shift(new Date(),-3)),time:"18:15",duration:2400,distance:8.1,pace:4.94,speed:12.15,points:[]}];
   save();renderToday();
   if(document.body.dataset.tab==="analytics")renderAnalytics(true);
   if(document.body.dataset.tab==="gym")renderGym();
+  if(document.body.dataset.tab==="runs")renderRunHistory();
   toast("Loaded sample data ✨");}
 $("#btnDemo").onclick=()=>{
-  if(state.entries.length||state.gym.history.length){
-    if(!confirm("Replace your current meals & workout history with sample data?"))return;}
+  if(state.entries.length||state.gym.history.length||state.runs.length){
+    if(!confirm("Replace your current meals, workouts & runs with sample data?"))return;}
   loadDemo();};
 $("#btnDemoEmpty").onclick=loadDemo;
 
