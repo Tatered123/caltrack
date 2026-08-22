@@ -16,10 +16,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Leaflet CSS for maps -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
-/* ===== Matcha (default) ===== */
 :root{--bg:#F2F0E8;--surface:#FFFFFF;--surface2:#F6F5ED;--pageBg:#E6E3D8;--ink:#122019;--muted:#67756B;
 --line:rgba(18,32,25,.10);--line2:rgba(18,32,25,.16);
 --limeA:#B7E44A;--limeB:#2FC178;--lime:#79C92F;--limeInk:#17321B;
@@ -433,7 +431,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
 :focus-visible{outline:2.5px solid var(--lime);outline-offset:2px;border-radius:6px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}}
 
-/* Run Tracking Styles */
 #runMap{height:300px;border-radius:var(--r-card);margin-bottom:14px;background:var(--surface2);border:1px solid var(--line)}
 .run-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
 .run-stat{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
@@ -475,9 +472,8 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
   <div id="storageWarn" hidden>Preview mode — storage can't persist here, so data resets on reload. Host this file to use Better You for real.</div>
 
   <main>
-    <!-- TODAY -->
     <section id="tab-today" class="tab active">
-      <button id="macroNotice">️ <span>Some entries have unknown macros — tap to find &amp; fix them.</span></button>
+      <button id="macroNotice">⚠️ <span>Some entries have unknown macros — tap to find &amp; fix them.</span></button>
       <div class="card in" id="hero">
         <div class="date-row"><span class="kicker">Today</span><span class="date" id="todayDate"></span></div>
         <div class="ring-wrap">
@@ -550,7 +546,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- ANALYTICS -->
     <section id="tab-analytics" class="tab">
       <div class="card in">
         <div class="row" style="margin-bottom:14px">
@@ -604,7 +599,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- COACH -->
     <section id="tab-coach" class="tab">
       <div class="card key-card in" id="coachSetup">
         <div class="row"><h3>Coach</h3><span class="kicker">powered by Groq</span></div>
@@ -637,7 +631,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- GYM -->
     <section id="tab-gym" class="tab">
       <div class="card in" style="padding:10px 12px">
         <div class="seg" id="segGym"><div class="thumb"></div>
@@ -672,7 +665,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- RUNS -->
     <section id="tab-runs" class="tab">
       <div id="runActiveView" hidden>
         <div class="card">
@@ -706,7 +698,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
       </div>
     </section>
 
-    <!-- SETTINGS -->
     <section id="tab-settings" class="tab">
       <div class="acc">
         <div class="acc-item in open">
@@ -777,7 +768,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
         <div class="acc-item in" style="animation-delay:.2s">
           <button class="acc-head"><span class="acc-ico">🔎</span><span class="acc-tt"><b>Food search &amp; scan</b><small>how accuracy works</small></span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
-            <p class="hint" style="margin:0">Every food question checks <b>Open Food Facts</b> first — real label macros beat AI guesses ( badge). FoodScan cross-checks photos the same way. Searches are cached for consistent answers.</p>
+            <p class="hint" style="margin:0">Every food question checks <b>Open Food Facts</b> first — real label macros beat AI guesses (📦 badge). FoodScan cross-checks photos the same way. Searches are cached for consistent answers.</p>
           </div></div></div>
         </div>
         <div class="acc-item in" style="animation-delay:.25s">
@@ -796,7 +787,7 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
           </div></div></div>
         </div>
       </div>
-      <p class="about">Better You 1.0.3 — food · scans · training · runs · all on-device 🌱</p>
+      <p class="about">Better You 1.0.4 — food · scans · training · runs · all on-device 🌱</p>
     </section>
   </main>
 
@@ -826,7 +817,6 @@ body[data-tab="coach"] #fab,body[data-tab="coach"] #fabScan,body[data-tab="gym"]
 
 <div id="backdrop"></div>
 
-<!-- Leaflet JS for maps -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
@@ -1013,7 +1003,6 @@ function initSeg(el,cb){
   btns.forEach((b,i)=>b.onclick=()=>{haptic(6);place(i);cb(b.dataset.v);});
   el._set=v=>place(Math.max(0,btns.findIndex(b=>b.dataset.v===v)));return el;}
 
-/* ============ TODAY ============ */
 const RING_C=2*Math.PI*92;
 $("#ringFg").style.strokeDasharray=RING_C;$("#ringFg").style.strokeDashoffset=RING_C;
 function renderRing(){
@@ -1030,7 +1019,7 @@ function renderRing(){
   tween($("#msLeft"),Math.abs(left),900,v=>(over?"+":"")+fmt(v));
   const zone=$("#ringZone");
   if(over){zone.textContent="Over goal — ease off";zone.className="zone z-over";}
-  else if(eaten>=g*0.9){zone.textContent="In the zone ";zone.className="zone z-in";}
+  else if(eaten>=g*0.9){zone.textContent="In the zone 🎯";zone.className="zone z-in";}
   else{zone.textContent=`${fmt(g*0.9-eaten)} kcal to the zone`;zone.className="zone z-under";}}
 
 const FITS=[
@@ -1217,7 +1206,6 @@ function celebrate(before,after){
   if(before.kcal<g.kcal*0.9&&after.kcal>=g.kcal*0.9&&after.kcal<=g.kcal)msgs.push("In the target zone 🎯");
   msgs.forEach((m,i)=>setTimeout(()=>toast(m),400+i*700));}
 
-/* ============ ANALYTICS ============ */
 let anRange=7,firstAnalytics=true;
 function smooth(pts){
   if(pts.length<2)return pts.length?`M${pts[0].x},${pts[0].y}`:"";
@@ -1354,7 +1342,6 @@ function renderAnalytics(animate=false){
 let rsz;addEventListener("resize",()=>{clearTimeout(rsz);
   rsz=setTimeout(()=>{if(document.body.dataset.tab==="analytics"){renderTrend(false);renderWeight();}},180);});
 
-/* ============ GYM ============ */
 const DAYS=["MO","TU","WE","TH","FR","SA","SU"];
 const dowIdx=()=>(new Date().getDay()+6)%7;
 let gymView="today",restUntil=0,restTotal=90;
@@ -1375,7 +1362,7 @@ function startWorkout(day){
     if(!confirm(`You still have an unfinished "${old.routine}" session from ${old.date}. Discard it and start today's workout?`))return;}
   state.gym.session={date:todayStr(),routine:day.name,startedAt:Date.now(),restSec:+day.restSec||0,
     ex:(day.exercises||[]).map(x=>({n:x.n,tS:x.s,tR:x.r,tW:x.w,sets:Array.from({length:x.s},()=>({done:false,w:x.w,r:x.r}))}))};
-  save();haptic(14);toast(`Workout started — ${esc(day.name)} `);renderGymToday();}
+  save();haptic(14);toast(`Workout started — ${esc(day.name)} 💪`);renderGymToday();}
 
 function renderGymToday(){
   const box=$("#gymToday");
@@ -1623,17 +1610,21 @@ setInterval(()=>{
   if(restUntil&&Date.now()>=restUntil){restUntil=0;updRestBar();haptic(30);toast("Rest over — go! 🔥");}
 },500);
 
-/* ============ RUN TRACKING ============ */
-let runMap=null,runWatchId=null,runActive=false,runPaused=false,runStartTime=null,runPauseTime=null,runPoints=[],runDistance=0,runTimerInterval=null;
+let runMap=null,runWatchId=null,runActive=false,runPaused=false,runStartTime=null,runPauseTime=null,runPoints=[],runDistance=0,runTimerInterval=null,runPolyline=null,runMarker=null;
 
 function initRunTab(){
   if(!runMap){
-    runMap=L.map('runMap',{zoomControl:false}).setView([0,0],15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-      attribution:'© OpenStreetMap contributors',
-      maxZoom:19
-    }).addTo(runMap);
-    L.control.zoom({position:'bottomright'}).addTo(runMap);
+    try{
+      runMap=L.map('runMap',{zoomControl:false}).setView([40.7128,-74.0060],13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        attribution:'© OpenStreetMap',
+        maxZoom:19
+      }).addTo(runMap);
+      L.control.zoom({position:'bottomright'}).addTo(runMap);
+    }catch(e){
+      console.error("Map init error:",e);
+      $("#runMap").innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">Map failed to load. Check your internet connection.</div>';
+    }
   }
   renderRunHistory();
   setTimeout(()=>{if(runMap)runMap.invalidateSize();},100);}
@@ -1689,10 +1680,12 @@ function startRun(){
       
       if(runPoints.length===1){
         runMap.setView(latlng,16);
-        L.marker(latlng).addTo(runMap);}
-      else{
-        L.polyline(runPoints,{color:var(--limeB),weight:4}).addTo(runMap);
-        runMap.fitBounds(L.latLngBounds(runPoints),{padding:[50,50]});}
+        runMarker=L.marker(latlng).addTo(runMap);
+      }else{
+        if(runPolyline)runMap.removeLayer(runPolyline);
+        runPolyline=L.polyline(runPoints,{color:'#2FC178',weight:4}).addTo(runMap);
+        runMap.fitBounds(L.latLngBounds(runPoints),{padding:[50,50]});
+      }
     },
     err=>{
       console.error("GPS Error:",err);
@@ -1712,7 +1705,7 @@ function startRun(){
   },1000);
   
   haptic(20);
-  toast("Run started — GPS tracking active ");}
+  toast("Run started — GPS tracking active 🏃");}
 
 function pauseRun(){
   runPaused=!runPaused;
@@ -1778,9 +1771,9 @@ function finishRun(){
   $("#runSpeed").textContent="0.0";
   
   if(runMap){
-    runMap.eachLayer(layer=>{
-      if(layer instanceof L.Marker||layer instanceof L.Polyline){
-        runMap.removeLayer(layer);}});}
+    if(runPolyline){runMap.removeLayer(runPolyline);runPolyline=null;}
+    if(runMarker){runMap.removeLayer(runMarker);runMarker=null;}
+  }
   
   renderRunHistory();
   haptic(20);
@@ -1819,7 +1812,6 @@ $("#btnStartRun").onclick=startRun;
 $("#btnPauseRun").onclick=pauseRun;
 $("#btnFinishRun").onclick=finishRun;
 
-/* ============ SHEETS ============ */
 const backdrop=$("#backdrop");
 let activeSheet=null;
 function openSheetEl(el){activeSheet=el;el.classList.add("open");backdrop.classList.add("show");document.documentElement.classList.add("lock");}
@@ -1917,7 +1909,6 @@ function renderDaySheet(date){
   items.slice().sort((a,b)=>tsOf(a)-tsOf(b)).forEach(e=>list.appendChild(entryRow(e)));}
 $("#btnDayAdd").onclick=()=>openAddFresh($("#dayPick").value);
 
-/* ============ Open Food Facts ============ */
 const normStr=s=>String(s).toLowerCase().replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim();
 const normWords=s=>normStr(s).split(" ").filter(w=>w.length>2);
 async function offSearch(query){
@@ -1984,7 +1975,7 @@ async function searchOFFUI(q){
   const box=$("#offResults");box.innerHTML='<div class="spinner"></div>';
   try{
     const products=await offSearch(q);
-    if(!products.length){box.innerHTML='<div class="off-status">No matches — try entering it manually below </div>';return;}
+    if(!products.length){box.innerHTML='<div class="off-status">No matches — try entering it manually below 👇</div>';return;}
     box.innerHTML="";
     products.forEach(p=>{
       const n=p.nutriments||{};
@@ -2005,7 +1996,6 @@ async function searchOFFUI(q){
       box.appendChild(b);});
   }catch(err){box.innerHTML='<div class="off-status">Search unavailable — enter manually below.</div>';}}
 
-/* ============ FOODSCAN ============ */
 const VISION_MODELS=["meta-llama/llama-4-scout-17b-16e-instruct","meta-llama/llama-4-maverick-17b-128e-instruct","llama-3.2-90b-vision-prebuilt"];
 const SCAN_PROMPT=`You are FoodScan, a precise food-recognition engine inside a macro-tracking app.
 Look at the photo. Identify the food or meal, estimate the cooked portion weight in grams, and estimate nutrition for what is visible.
@@ -2100,7 +2090,6 @@ $("#btnScanAdd").onclick=()=>{
   addEntry({name:$("#sName").value.trim()||"Scanned meal",grams:num("sGrams"),kcal:num("sKcal"),p:num("sP"),c:num("sC"),f:num("sF")});
   haptic(12);closeSheetEl();};
 
-/* ============ COACH ============ */
 const FALLBACK_MODELS=["llama-3.3-70b-versatile","llama-3.1-8b-instant","meta-llama/llama-4-scout-17b-16e-instruct","openai/gpt-oss-120b"];
 let modelList=[];
 const coachReady=()=>!!state.settings.key;
@@ -2209,7 +2198,6 @@ $("#btnSend").onclick=()=>{const v=$("#chatInput").value;$("#chatInput").value="
 $("#chatInput").addEventListener("keydown",e=>{if(e.key==="Enter"){const v=e.target.value;e.target.value="";coachSend(v);}});
 $$("#coachChips .chipq").forEach(c=>c.onclick=()=>coachSend(c.textContent));
 
-/* ============ SETTINGS ============ */
 $$(".acc-head").forEach(h=>h.onclick=()=>{
   const item=h.closest(".acc-item");const wasOpen=item.classList.contains("open");
   $$(".acc-item").forEach(i=>i.classList.remove("open"));
@@ -2261,7 +2249,6 @@ $("#btnErase").onclick=()=>{
   state=DEFAULTS();state.settings=keep;save();
   fillSettings();renderToday();renderCoachState();toast("All data erased");};
 
-/* ============ DEMO ============ */
 const POOL=[
   ["Greek yogurt bowl",250,220,20,24,5],["Overnight oats",300,340,12,52,9],["Eggs & toast",180,310,18,26,14],
   ["Protein shake",350,240,32,18,4],["Avocado toast",160,330,10,32,18],["Chicken rice bowl",420,610,44,62,16],
@@ -2317,7 +2304,6 @@ $("#btnDemo").onclick=()=>{
   loadDemo();};
 $("#btnDemoEmpty").onclick=loadDemo;
 
-/* ============ INIT ============ */
 function fillSettings(){
   fillGoals();syncAIFields();
   $("#segUnits")._set(state.settings.units);
